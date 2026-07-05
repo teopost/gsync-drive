@@ -247,7 +247,8 @@ class MainWindow(Adw.ApplicationWindow):
         ConflictsDialog(self.config.account(account_id), self.proxy).present(self)
 
     def _act_prefs(self, account_id: str) -> None:
-        PreferencesDialog(self.config.account(account_id), self.proxy).present(self)
+        PreferencesDialog(self.config.account(account_id), self.proxy,
+                          self.config).present(self)
 
     def _act_show_log(self, account_id: str) -> None:
         dialog = Adw.Dialog(title=_("Synchronization log"),

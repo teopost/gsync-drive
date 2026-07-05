@@ -32,6 +32,9 @@ service propagates changes in both directions using
   (`--max-delete`), and a guided repair with a dry-run preview.
 - **Desktop integration**: notifications, sync folder in the Files sidebar,
   autostart via a systemd user service, D-Bus activation.
+- **Tray icon** (optional): a status icon in the system tray with a menu to
+  sync now, pause/resume and open the app. Native on KDE Plasma; on GNOME
+  it requires the [AppIndicator extension](https://extensions.gnome.org/extension/615/appindicator-support/).
 
 ## Installation
 
@@ -41,7 +44,7 @@ build it yourself:
 
 ```bash
 ./build-deb.sh
-sudo apt install ./gdrive-sync_0.4.3_all.deb
+sudo apt install ./gdrive-sync_0.5.0_all.deb
 ```
 
 Then launch **GDrive Sync** from the activities overview and follow the
@@ -53,7 +56,7 @@ An RPM for openSUSE (Leap 15.6+/Tumbleweed) can be built with:
 
 ```bash
 ./build-rpm.sh      # requires rpmbuild (on Ubuntu/Debian: sudo apt install rpm)
-sudo zypper install ./gdrive-sync-0.4.3-1.noarch.rpm
+sudo zypper install ./gdrive-sync-0.5.0-1.noarch.rpm
 ```
 
 The app also runs on KDE Plasma: the GTK4/libadwaita runtime is pulled in as

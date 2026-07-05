@@ -21,6 +21,7 @@ from ..config import Config
 from . import notify
 from .dbus_service import DBusService
 from .engine import Engine
+from .tray import TrayIcon
 from .watcher import LocalWatcher
 
 log = logging.getLogger("gdrive-sync-daemon")
@@ -36,6 +37,7 @@ class AccountManager:
         self.engines: dict[str, Engine] = {}
         self.watchers: dict[str, LocalWatcher] = {}
         self.service: DBusService | None = None
+        self.tray: TrayIcon | None = None
         config.connect_accounts_changed(self.reconcile)
 
     def reconcile(self) -> None:
@@ -53,6 +55,8 @@ class AccountManager:
 
         if self.service and (wanted != current):
             self.service.emit_accounts_changed()
+        if self.tray:
+            self.tray.refresh()
 
     def _add_engine(self, account_id: str) -> None:
         account = self.config.account(account_id)
@@ -84,6 +88,8 @@ class AccountManager:
     def _on_state_changed(self, account_id: str, state) -> None:
         if self.service:
             self.service.emit_state_changed(account_id, state.value)
+        if self.tray:
+            self.tray.refresh()
 
     def _on_sync_completed(self, account_id: str, ok: bool, conflicts: int) -> None:
         if self.service:
@@ -118,6 +124,7 @@ class DaemonApp(Gio.Application):
         )
         self.manager: AccountManager | None = None
         self.service: DBusService | None = None
+        self.tray: TrayIcon | None = None
 
         action = Gio.SimpleAction.new("open-gui", None)
         action.connect("activate", lambda *_: notify.launch_gui())
@@ -137,6 +144,12 @@ class DaemonApp(Gio.Application):
         self.service = DBusService(self.manager)
         self.manager.service = self.service
         self.service.register(connection)
+        self.tray = TrayIcon(self.manager, connection)
+        self.manager.tray = self.tray
+        if config.tray_icon:
+            self.tray.enable()
+        config.connect_tray_icon_changed(
+            lambda: self.tray.enable() if config.tray_icon else self.tray.disable())
         return True
 
     def do_dbus_unregister(self, connection, object_path) -> None:

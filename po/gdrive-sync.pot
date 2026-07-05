@@ -417,3 +417,18 @@ msgstr ""
 msgid "Realign not started: {message}"
 msgstr ""
 
+msgid "Open GDrive Sync"
+msgstr ""
+
+msgid "Resume synchronization"
+msgstr ""
+
+msgid "Pause synchronization"
+msgstr ""
+
+msgid "Tray icon"
+msgstr ""
+
+msgid "Applies to all accounts; on GNOME it requires the AppIndicator extension"
+msgstr ""
+

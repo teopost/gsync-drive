@@ -5,6 +5,10 @@
       <default>[]</default>
       <summary>Configured account ids</summary>
     </key>
+    <key name="tray-icon" type="b">
+      <default>true</default>
+      <summary>Show a status icon in the system tray (StatusNotifierItem)</summary>
+    </key>
     <!-- The keys below are the v0.2 single-account configuration, kept for migration. -->
     <key name="setup-done" type="b">
       <default>false</default>

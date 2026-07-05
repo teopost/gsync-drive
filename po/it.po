@@ -417,3 +417,18 @@ msgstr "Selezione delle cartelle aggiornata; riallineamento in corso…"
 msgid "Realign not started: {message}"
 msgstr "Riallineamento non avviato: {message}"
 
+msgid "Open GDrive Sync"
+msgstr "Apri GDrive Sync"
+
+msgid "Resume synchronization"
+msgstr "Riprendi la sincronizzazione"
+
+msgid "Pause synchronization"
+msgstr "Sospendi la sincronizzazione"
+
+msgid "Tray icon"
+msgstr "Icona nell'area di notifica"
+
+msgid "Applies to all accounts; on GNOME it requires the AppIndicator extension"
+msgstr "Vale per tutti gli account; su GNOME richiede l'estensione AppIndicator"
+

@@ -200,6 +200,7 @@ class Config:
             log.warning("GSettings schema %s not installed; using defaults", const.GSCHEMA_ID)
             self.settings = None
             self._mem_accounts: list[str] = []
+        self._mem_tray = True
         self._account_cache: dict[str, AccountConfig] = {}
 
     # --------------------------------------------------------------- account
@@ -249,6 +250,30 @@ class Config:
         account.purge_state(include_filters=True)
         account.reset()
         self._account_cache.pop(account_id, None)
+
+    def _has_main_key(self, key: str) -> bool:
+        """True when the installed (compiled) schema already has the key —
+        guards upgrades where the new schema is not yet recompiled."""
+        return (self.settings is not None
+                and self.settings.props.settings_schema.has_key(key))
+
+    @property
+    def tray_icon(self) -> bool:
+        if self._has_main_key("tray-icon"):
+            return self.settings.get_boolean("tray-icon")
+        return self._mem_tray
+
+    @tray_icon.setter
+    def tray_icon(self, value: bool) -> None:
+        if self._has_main_key("tray-icon"):
+            self.settings.set_boolean("tray-icon", value)
+        else:
+            self._mem_tray = bool(value)
+
+    def connect_tray_icon_changed(self, callback) -> None:
+        """callback() when the tray-icon key changes (no-op without schema)."""
+        if self._has_main_key("tray-icon"):
+            self.settings.connect("changed::tray-icon", lambda *_: callback())
 
     def connect_accounts_changed(self, callback) -> None:
         """callback() whenever the account list changes (no-op without schema)."""

@@ -32,12 +32,15 @@ servizio in background propaga le modifiche in entrambe le direzioni tramite
   massa (`--max-delete`); ripristino guidato con anteprima dry-run.
 - **Integrazione desktop**: notifiche, cartella nella barra laterale di File,
   avvio automatico via systemd utente, attivazione D-Bus.
+- **Icona di stato** (opzionale): un'icona nell'area di notifica con menu per
+  sincronizzare subito, sospendere/riprendere e aprire l'app. Nativa su KDE
+  Plasma; su GNOME richiede l'[estensione AppIndicator](https://extensions.gnome.org/extension/615/appindicator-support/).
 
 ## Installazione
 
 ```bash
 ./build-deb.sh
-sudo apt install ./gdrive-sync_0.4.3_all.deb
+sudo apt install ./gdrive-sync_0.5.0_all.deb
 ```
 
 Poi avvia **GDrive Sync** dalle attività e segui la procedura guidata.
@@ -48,7 +51,7 @@ Un RPM per openSUSE (Leap 15.6+/Tumbleweed) si costruisce con:
 
 ```bash
 ./build-rpm.sh      # richiede rpmbuild (su Ubuntu/Debian: sudo apt install rpm)
-sudo zypper install ./gdrive-sync-0.4.3-1.noarch.rpm
+sudo zypper install ./gdrive-sync-0.5.0-1.noarch.rpm
 ```
 
 L'app funziona anche su KDE Plasma: il runtime GTK4/libadwaita viene

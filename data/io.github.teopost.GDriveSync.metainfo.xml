@@ -33,6 +33,13 @@
   </developer>
   <content_rating type="oars-1.1"/>
   <releases>
+    <release version="0.5.0" date="2026-07-05">
+      <description>
+        <p>Optional system tray icon (StatusNotifierItem) with per-account
+        status and quick actions; toggle in the preferences. Native on KDE
+        Plasma, requires the AppIndicator extension on GNOME.</p>
+      </description>
+    </release>
     <release version="0.4.3" date="2026-07-05">
       <description>
         <p>Fix the repair action appearing to do nothing (the dry-run

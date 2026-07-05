@@ -9,7 +9,7 @@ import subprocess
 from gi.repository import Adw, Gio, Gtk
 
 from .. import const
-from ..config import AccountConfig, read_user_filters, write_filters
+from ..config import AccountConfig, Config, read_user_filters, write_filters
 from ..i18n import _
 from . import bookmarks
 from .daemon_proxy import DaemonProxy
@@ -21,10 +21,12 @@ _BWLIMIT_RE = re.compile(r"^$|^\d+(\.\d+)?[KMG]?(:(\d+(\.\d+)?[KMG]?|off))?$|^of
 
 
 class PreferencesDialog(Adw.PreferencesDialog):
-    def __init__(self, account: AccountConfig, proxy: DaemonProxy) -> None:
+    def __init__(self, account: AccountConfig, proxy: DaemonProxy,
+                 config: Config | None = None) -> None:
         super().__init__(title=_("Preferences — {account}").format(account=account.display_name))
         self.account = account
         self.proxy = proxy
+        self.config = config
 
         page = Adw.PreferencesPage(title=_("General"), icon_name="emblem-system-symbolic")
         self.add(page)
@@ -117,6 +119,17 @@ class PreferencesDialog(Adw.PreferencesDialog):
         self.autostart_row.set_active(self._autostart_enabled())
         self.autostart_row.connect("notify::active", self._on_autostart_toggled)
         integ_group.add(self.autostart_row)
+
+        if config is not None:
+            self.tray_row = Adw.SwitchRow(
+                title=_("Tray icon"),
+                subtitle=_("Applies to all accounts; on GNOME it requires "
+                           "the AppIndicator extension"))
+            self.tray_row.set_active(config.tray_icon)
+            self.tray_row.connect(
+                "notify::active",
+                lambda row, _p: setattr(config, "tray_icon", row.get_active()))
+            integ_group.add(self.tray_row)
 
         self.connect("closed", lambda *_: self.proxy.reload_config())
 

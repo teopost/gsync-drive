@@ -1,3 +1,13 @@
+gdrive-sync (0.5.0) unstable; urgency=medium
+
+  * System tray icon (StatusNotifierItem, implemented over plain D-Bus in
+    the sync daemon): shows the per-account status and offers sync now,
+    pause/resume and opening the app. Native on KDE Plasma; on GNOME it
+    requires the AppIndicator extension.
+  * New "Tray icon" toggle in the preferences (applies to all accounts).
+
+ -- Stefano Teodorani <stefano.teodorani@horsa.it>  Sun, 05 Jul 2026 15:00:00 +0200
+
 gdrive-sync (0.4.3) unstable; urgency=medium
 
   * Fix: the repair preview (dry-run) ran in the daemon's bisync workdir,
