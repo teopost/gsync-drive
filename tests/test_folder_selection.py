@@ -5,8 +5,8 @@ import pytest
 gi = pytest.importorskip("gi")
 
 from gdrive_sync import const, rclone
-from gdrive_sync.config import (Config, minimal_paths, read_user_filters,
-                                write_filters)
+from gdrive_sync.config import (Config, ensure_filters_file, minimal_paths,
+                                read_user_filters, write_filters)
 
 
 # --------------------------------------------------------------------------- #
@@ -124,3 +124,26 @@ def test_format_size():
     assert format_size(1400) == "1.4 kB"
     assert format_size(2_500_000) == "2.5 MB"
     assert format_size(1_400_000_000) == "1.4 GB"
+
+
+# --------------------------------------------------------------------------- #
+# ensure_filters_file must honor the folder selection (regression: a missing
+# filters file was regenerated without include rules, widening the sync to
+# the whole Drive and blocking every repair)
+# --------------------------------------------------------------------------- #
+
+def test_ensure_filters_file_regenerates_with_selection(tmp_path):
+    f = tmp_path / "filters.txt"
+    ensure_filters_file(f, include_dirs=["Documenti", "Notes"])
+    lines = f.read_text().splitlines()
+    assert "+ /Documenti/**" in lines
+    assert "+ /Notes/**" in lines
+    assert lines[-1] == "- **"
+
+
+def test_ensure_filters_file_does_not_touch_existing(tmp_path):
+    f = tmp_path / "filters.txt"
+    write_filters(["*.iso"], f, include_dirs=["Photos"])
+    before = f.read_text()
+    ensure_filters_file(f, include_dirs=["Documenti"])  # must be a no-op
+    assert f.read_text() == before

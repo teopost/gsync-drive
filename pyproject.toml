@@ -4,7 +4,7 @@ build-backend = "setuptools.build_meta"
 
 [project]
 name = "gdrive-sync"
-version = "0.4.2"
+version = "0.4.3"
 description = "Google Drive bidirectional sync for GNOME"
 readme = "README.md"
 license = "GPL-3.0-or-later"

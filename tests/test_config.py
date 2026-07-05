@@ -86,6 +86,8 @@ def _plant_leftovers(acc):
     acc.sync_log_file.write_text("old log")
     acc.filters_file.parent.mkdir(parents=True, exist_ok=True)
     acc.filters_file.write_text("- *.iso\n")
+    pathlib_md5 = acc.filters_file.parent / (acc.filters_file.name + ".md5")
+    pathlib_md5.write_text("abc")
 
 
 def test_purge_state_removes_leftovers(config, state_dirs):
@@ -98,6 +100,7 @@ def test_purge_state_removes_leftovers(config, state_dirs):
     assert acc.filters_file.exists()  # kept unless include_filters=True
     acc.purge_state(include_filters=True)
     assert not acc.filters_file.exists()
+    assert not (acc.filters_file.parent / (acc.filters_file.name + ".md5")).exists()
 
 
 def test_purge_state_on_missing_files_is_noop(config, state_dirs):

@@ -99,7 +99,7 @@ class Engine:
     # ------------------------------------------------------------- lifecycle
 
     def start(self) -> None:
-        ensure_filters_file(self.account.filters_file)
+        ensure_filters_file(self.account.filters_file, self.account.sync_folders)
         self.account.workdir.mkdir(parents=True, exist_ok=True)
         needs_remote = self.account.remote.endswith(":")
         if needs_remote and not rclone.remote_exists(self.account.remote_name):
@@ -204,6 +204,9 @@ class Engine:
     # ------------------------------------------------------------- sync runs
 
     def _start_run(self, resync: bool) -> None:
+        # Self-heal: a missing filters file would abort every run (and, if
+        # regenerated without the folder selection, widen the sync scope).
+        ensure_filters_file(self.account.filters_file, self.account.sync_folders)
         first_sync = self.last_sync_time == 0
         self._set_state(State.RESYNCING if resync else State.SYNCING)
         self._cancel_timer()

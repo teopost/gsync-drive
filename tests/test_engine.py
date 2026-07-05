@@ -26,6 +26,7 @@ class FakeAccount:
         self.root_folder_id = ""
         self.sidebar_bookmark = True
         self.remote = str(tmp_path / "remote")  # path (not ':') -> no remote check
+        self.sync_folders = []
         self.filters_file = tmp_path / "filters.txt"
         self.workdir = tmp_path / "work"
         self.sync_log_file = tmp_path / "run.log"

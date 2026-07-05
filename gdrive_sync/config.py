@@ -180,10 +180,12 @@ class AccountConfig:
             except OSError:
                 pass
         if include_filters:
-            try:
-                self.filters_file.unlink()
-            except OSError:
-                pass
+            # rclone bisync stores a hash companion next to the filters file.
+            for f in (self.filters_file, Path(f"{self.filters_file}.md5")):
+                try:
+                    f.unlink()
+                except OSError:
+                    pass
 
 
 class Config:
@@ -347,6 +349,11 @@ def write_filters(user_patterns: list[str], path: Path,
     path.write_text("".join(lines))
 
 
-def ensure_filters_file(path: Path) -> None:
+def ensure_filters_file(path: Path, include_dirs: list[str] | None = None) -> None:
+    """Create the filters file if missing, honoring the folder selection.
+
+    A regenerated file that lost its include rules would silently widen the
+    sync to the whole Drive; a changed file makes bisync demand --resync.
+    """
     if not path.exists():
-        write_filters([], path)
+        write_filters([], path, include_dirs=include_dirs)

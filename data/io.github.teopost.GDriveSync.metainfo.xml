@@ -33,6 +33,13 @@
   </developer>
   <content_rating type="oars-1.1"/>
   <releases>
+    <release version="0.4.3" date="2026-07-05">
+      <description>
+        <p>Fix the repair action appearing to do nothing (the dry-run
+        preview locked the sync workdir), and regenerate a missing filters
+        file with the saved folder selection before every run.</p>
+      </description>
+    </release>
     <release version="0.4.2" date="2026-07-05">
       <description>
         <p>The Drive folder selection can now be changed after setup from

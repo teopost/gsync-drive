@@ -1,3 +1,18 @@
+gdrive-sync (0.4.3) unstable; urgency=medium
+
+  * Fix: the repair preview (dry-run) ran in the daemon's bisync workdir,
+    leaving a lock that made the actual repair — and any concurrent sync —
+    fail instantly, so clicking "Repair" appeared to do nothing. The
+    preview now uses its own scratch workdir, is cancelled when the dialog
+    closes, and never runs twice in parallel.
+  * Fix: a missing filters file is now regenerated before every sync run
+    with the account's folder selection; previously it was recreated only
+    at daemon startup and without the include rules, silently widening the
+    sync to the whole Drive and blocking every repair.
+  * Removing an account now also deletes the filters hash companion file.
+
+ -- Stefano Teodorani <stefano.teodorani@horsa.it>  Sun, 05 Jul 2026 14:00:00 +0200
+
 gdrive-sync (0.4.2) unstable; urgency=medium
 
   * The Drive folder selection can now be changed after setup: the account

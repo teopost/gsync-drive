@@ -3,6 +3,7 @@
 from __future__ import annotations
 
 import logging
+import shutil
 import threading
 import time
 
@@ -103,6 +104,7 @@ class MainWindow(Adw.ApplicationWindow):
         self.config = config
         self.proxy = proxy
         self._rows: dict[str, AccountRow] = {}
+        self._preview_run: rclone.BisyncRun | None = None
 
         toolbar = Adw.ToolbarView()
         header = Adw.HeaderBar()
@@ -310,6 +312,10 @@ class MainWindow(Adw.ApplicationWindow):
 
     def _act_repair(self, account_id: str) -> None:
         account = self.config.account(account_id)
+        # Only one preview at a time; a previous one may still be running.
+        if self._preview_run is not None:
+            self._preview_run.cancel()
+
         dialog = Adw.AlertDialog(
             heading=_("Repair of “{account}”").format(account=account.display_name),
             body=_("Computing what the repair would involve…"),
@@ -319,19 +325,40 @@ class MainWindow(Adw.ApplicationWindow):
         dialog.set_response_appearance("resync", Adw.ResponseAppearance.DESTRUCTIVE)
         dialog.set_response_enabled("resync", False)
         dialog.set_default_response("cancel")
-        dialog.connect("response",
-                       lambda _d, r: r == "resync" and self.proxy.resync(account_id))
+
+        def on_response(_d, response: str) -> None:
+            # The dry-run must never race the real resync (or the next
+            # periodic sync): kill it as soon as the dialog is answered.
+            if self._preview_run is not None:
+                self._preview_run.cancel()
+            if response == "resync":
+                self.proxy.resync(account_id)
+
+        dialog.connect("response", on_response)
         dialog.present(self)
 
+        # The preview runs in its own scratch workdir: sharing the daemon's
+        # workdir would leave a bisync lock that makes the real repair (and
+        # any concurrent sync) fail instantly.
+        preview_workdir = const.STATE_DIR / f"resync-preview-{account_id}.workdir"
+
         def worker() -> None:
+            shutil.rmtree(preview_workdir, ignore_errors=True)
+            preview_workdir.mkdir(parents=True, exist_ok=True)
             version = rclone.detect_version()
             cmd = rclone.build_bisync_cmd(
                 account.local_dir, account.remote,
                 version=version, resync=True, dry_run=True,
                 filters_file=account.filters_file,
-                workdir=account.workdir,
+                workdir=preview_workdir,
                 log_file=const.STATE_DIR / f"resync-preview-{account_id}.log")
-            result = rclone.run_bisync(cmd)
+            run = rclone.BisyncRun(cmd)
+            self._preview_run = run
+            result = run.wait()
+            self._preview_run = None
+            shutil.rmtree(preview_workdir, ignore_errors=True)
+            if result.outcome is rclone.Outcome.CANCELLED:
+                return
             changes = result.log_tail.count("Would copy") + result.log_tail.count("NOTICE:")
             GLib.idle_add(self._recovery_preview_ready, dialog, result, changes)
 
