@@ -115,3 +115,10 @@ def test_remove_account_purges_state(config, state_dirs):
     assert not acc.workdir.exists()
     assert not acc.status_file.exists()
     assert not acc.filters_file.exists()
+
+
+def test_schema_fallback_is_flagged(config):
+    """The in-memory fallback must be detectable: GUIs/daemons must not treat
+    it as a real empty configuration (regression: a schema hiccup during a
+    package upgrade opened the wizard, which purged a real account)."""
+    assert config.schema_ok is False

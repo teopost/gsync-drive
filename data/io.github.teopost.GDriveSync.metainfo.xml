@@ -33,6 +33,12 @@
   </developer>
   <content_rating type="oars-1.1"/>
   <releases>
+    <release version="0.6.1" date="2026-07-05">
+      <description>
+        <p>Fix accounts losing their sync state when the app started during
+        a package upgrade; clearer feedback while a repair is running.</p>
+      </description>
+    </release>
     <release version="0.6.0" date="2026-07-05">
       <description>
         <p>New accounts with an empty folder self-heal instead of failing

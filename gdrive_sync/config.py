@@ -203,6 +203,16 @@ class Config:
         self._mem_tray = True
         self._account_cache: dict[str, AccountConfig] = {}
 
+    @property
+    def schema_ok(self) -> bool:
+        """True when the real GSettings schemas are installed.
+
+        The in-memory fallback exists for tests and dev checkouts only: a GUI
+        or daemon running on it would believe no account exists — and the
+        setup wizard it triggers can then purge a real account's state.
+        """
+        return self._main_schema is not None and self._account_schema is not None
+
     # --------------------------------------------------------------- account
 
     @property

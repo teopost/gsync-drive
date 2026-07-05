@@ -1,3 +1,19 @@
+gdrive-sync (0.6.1) unstable; urgency=medium
+
+  * Fix a serious state-loss bug: if the app started while the GSettings
+    schemas were briefly unavailable (typically right after a package
+    upgrade), it silently fell back to an empty in-memory configuration,
+    opened the setup wizard as if unconfigured, and the wizard could then
+    purge the on-disk state of a real account (making it demand a repair).
+    The GUI now shows an explanatory error instead, and the daemon refuses
+    to start with an empty fallback configuration when accounts exist on
+    disk (systemd retries until the schemas are back).
+  * The repair dialog now shows a spinner while the preview is computed,
+    and a repairing account shows "Realigning…" instead of "First
+    synchronization…", so it is clear the repair is actually running.
+
+ -- Stefano Teodorani <stefano.teodorani@horsa.it>  Sun, 05 Jul 2026 18:00:00 +0200
+
 gdrive-sync (0.6.0) unstable; urgency=medium
 
   * Fix: a brand-new account whose local folder starts out empty failed

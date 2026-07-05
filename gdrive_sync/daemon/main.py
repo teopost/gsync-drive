@@ -134,6 +134,13 @@ class DaemonApp(Gio.Application):
         if not Gio.Application.do_dbus_register(self, connection, object_path):
             return False
         config = Config()
+        if not config.schema_ok and any(const.CONFIG_DIR.glob("filters-*.txt")):
+            # Schemas can be briefly unavailable while a package upgrade
+            # recompiles them; a memory-backed config would report zero
+            # accounts. Fail startup and let systemd retry.
+            log.error("GSettings schemas unavailable but accounts exist on "
+                      "disk; refusing to start with an empty configuration")
+            return False
         config.migrate()
         try:
             version = rclone.detect_version()

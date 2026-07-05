@@ -447,3 +447,15 @@ msgstr "Log del servizio"
 msgid "Messages from the synchronization service"
 msgstr "Messaggi del servizio di sincronizzazione"
 
+msgid "Realigning…"
+msgstr "Riallineamento…"
+
+msgid "Configuration unavailable"
+msgstr "Configurazione non disponibile"
+
+msgid "The application settings schema is not installed (this can happen right after an update). Log out and back in, or reinstall the package, then reopen GDrive Sync."
+msgstr "Lo schema delle impostazioni dell'applicazione non è installato (può capitare subito dopo un aggiornamento). Esci e rientra dalla sessione, oppure reinstalla il pacchetto, poi riapri GDrive Sync."
+
+msgid "Close"
+msgstr "Chiudi"
+

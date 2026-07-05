@@ -40,10 +40,33 @@ class GDriveSyncApp(Adw.Application):
         self.proxy = DaemonProxy()
 
     def do_activate(self) -> None:
+        if not self.config.schema_ok:
+            self._present_schema_error()
+            return
         if not self.config.account_ids:
             self.start_wizard()
             return
         self._present_main_window()
+
+    def _present_schema_error(self) -> None:
+        from gi.repository import Adw, Gtk
+
+        from ..i18n import _
+        win = Adw.ApplicationWindow(application=self, title="GDrive Sync",
+                                    default_width=480, default_height=360)
+        status = Adw.StatusPage(
+            icon_name="dialog-error-symbolic",
+            title=_("Configuration unavailable"),
+            description=_("The application settings schema is not installed "
+                          "(this can happen right after an update). Log out "
+                          "and back in, or reinstall the package, then reopen "
+                          "GDrive Sync."))
+        quit_btn = Gtk.Button(label=_("Close"), halign=Gtk.Align.CENTER)
+        quit_btn.add_css_class("pill")
+        quit_btn.connect("clicked", lambda *_a: win.close())
+        status.set_child(quit_btn)
+        win.set_content(status)
+        win.present()
 
     def _present_main_window(self) -> None:
         if self.window is None:

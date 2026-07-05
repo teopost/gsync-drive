@@ -153,7 +153,7 @@ def _status_label(status: str) -> str:
     return {
         "idle": _("Up to date"),
         "syncing": _("Synchronizing…"),
-        "resyncing": _("First synchronization…"),
+        "resyncing": _("Realigning…"),
         "paused": _("Paused"),
         "offline": _("Offline"),
         "error": _("Error"),

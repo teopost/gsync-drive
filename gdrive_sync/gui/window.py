@@ -24,7 +24,7 @@ _STATE_UI = {
     # status: (icon, short label)
     "idle": ("emblem-ok-symbolic", _("Up to date")),
     "syncing": ("emblem-synchronizing-symbolic", _("Synchronizing…")),
-    "resyncing": ("emblem-synchronizing-symbolic", _("First synchronization…")),
+    "resyncing": ("emblem-synchronizing-symbolic", _("Realigning…")),
     "paused": ("media-playback-pause-symbolic", _("Paused")),
     "offline": ("network-offline-symbolic", _("Offline")),
     "error": ("dialog-warning-symbolic", _("Error")),
@@ -332,6 +332,9 @@ class MainWindow(Adw.ApplicationWindow):
         dialog.set_response_appearance("resync", Adw.ResponseAppearance.DESTRUCTIVE)
         dialog.set_response_enabled("resync", False)
         dialog.set_default_response("cancel")
+        spinner = Gtk.Spinner(spinning=True, halign=Gtk.Align.CENTER,
+                              width_request=24, height_request=24)
+        dialog.set_extra_child(spinner)
 
         def on_response(_d, response: str) -> None:
             # The dry-run must never race the real resync (or the next
@@ -373,6 +376,7 @@ class MainWindow(Adw.ApplicationWindow):
 
     def _recovery_preview_ready(self, dialog: Adw.AlertDialog,
                                 result: rclone.SyncResult, changes: int) -> bool:
+        dialog.set_extra_child(None)
         dialog.set_body(
             _("The repair realigns both sides and resumes synchronization.\n\n"
               "⚠ For files that differ on both sides, the LOCAL version wins.\n"
