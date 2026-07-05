@@ -42,6 +42,20 @@ sudo apt install ./gdrive-sync_0.4.1_all.deb
 
 Poi avvia **GDrive Sync** dalle attività e segui la procedura guidata.
 
+### RPM (openSUSE)
+
+Un RPM per openSUSE (Leap 15.6+/Tumbleweed) si costruisce con:
+
+```bash
+./build-rpm.sh      # richiede rpmbuild (su Ubuntu/Debian: sudo apt install rpm)
+sudo zypper install ./gdrive-sync-0.4.1-1.noarch.rpm
+```
+
+L'app funziona anche su KDE Plasma: il runtime GTK4/libadwaita viene
+installato come dipendenza. Nota: l'opzione "barra laterale di File" ha
+effetto solo sui file manager GTK (Dolphin non legge i segnalibri GTK);
+notifiche, avvio automatico e attivazione D-Bus funzionano normalmente.
+
 Il pacchetto dipende da `rclone` dei repo Ubuntu (1.60): funziona, ma per una
 sync più robusta è consigliato rclone ≥ 1.66 da [rclone.org](https://rclone.org/install/)
 — l'app rileva la versione e abilita da sola le protezioni aggiuntive

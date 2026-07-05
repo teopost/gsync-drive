@@ -13,3 +13,4 @@ debian/*.substvars
 locale/
 .pytest_cache/
 .claude/
+*.rpm
