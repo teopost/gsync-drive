@@ -34,6 +34,7 @@ _SNI_XML = """
     <property name="Title" type="s" access="read"/>
     <property name="Status" type="s" access="read"/>
     <property name="IconName" type="s" access="read"/>
+    <property name="AttentionIconName" type="s" access="read"/>
     <property name="ToolTip" type="(sa(iiay)ss)" access="read"/>
     <property name="ItemIsMenu" type="b" access="read"/>
     <property name="Menu" type="o" access="read"/>
@@ -50,6 +51,7 @@ _SNI_XML = """
       <arg name="delta" type="i" direction="in"/><arg name="orientation" type="s" direction="in"/>
     </method>
     <signal name="NewIcon"/>
+    <signal name="NewAttentionIcon"/>
     <signal name="NewStatus"><arg name="status" type="s"/></signal>
     <signal name="NewToolTip"/>
   </interface>
@@ -120,6 +122,31 @@ _ID_OPEN = 3
 _ID_SEP_A = 4
 _ID_SEP_B = 5
 _ID_ACCOUNT_BASE = 100  # + index: informative per-account rows
+
+
+# Aggregated tray state -> themed icon: the icon itself shows what the
+# daemon is doing (sync spinner, pause, offline, warning).
+_STATE_ICONS = {
+    "error": "dialog-warning-symbolic",
+    "syncing": "emblem-synchronizing-symbolic",
+    "paused": "media-playback-pause-symbolic",
+    "offline": "network-offline-symbolic",
+    "idle": f"{const.APP_ID}-symbolic",
+}
+
+
+def aggregate_state(states: list[str]) -> str:
+    """Collapse per-account engine states into one tray state, worst first."""
+    states = set(states)
+    if states & {"error", "needs_resync"}:
+        return "error"
+    if states & {"syncing", "resyncing"}:
+        return "syncing"
+    if states and states <= {"paused"}:
+        return "paused"
+    if states and states <= {"offline", "paused"}:
+        return "offline"
+    return "idle"
 
 
 def _status_label(status: str) -> str:
@@ -209,6 +236,7 @@ class TrayIcon:
         if not self._enabled:
             return
         self._revision += 1
+        self._emit(ITEM_PATH, "org.kde.StatusNotifierItem", "NewIcon", None)
         self._emit(ITEM_PATH, "org.kde.StatusNotifierItem", "NewStatus",
                    GLib.Variant("(s)", (self._overall_status(),)))
         self._emit(ITEM_PATH, "org.kde.StatusNotifierItem", "NewToolTip", None)
@@ -223,11 +251,11 @@ class TrayIcon:
 
     # ----------------------------------------------------------- SNI object
 
+    def _aggregate(self) -> str:
+        return aggregate_state([e.state.value for e in self.manager.engines.values()])
+
     def _overall_status(self) -> str:
-        states = {e.state.value for e in self.manager.engines.values()}
-        if states & {"error", "needs_resync"}:
-            return "NeedsAttention"
-        return "Active"
+        return "NeedsAttention" if self._aggregate() == "error" else "Active"
 
     def _tooltip_text(self) -> str:
         lines = [f"{e.account.display_name}: {_status_label(e.state.value)}"
@@ -244,7 +272,9 @@ class TrayIcon:
         if name == "Status":
             return GLib.Variant("s", self._overall_status())
         if name == "IconName":
-            return GLib.Variant("s", f"{const.APP_ID}-symbolic")
+            return GLib.Variant("s", _STATE_ICONS[self._aggregate()])
+        if name == "AttentionIconName":
+            return GLib.Variant("s", _STATE_ICONS["error"])
         if name == "ToolTip":
             return GLib.Variant("(sa(iiay)ss)",
                                 ("", [], "GDrive Sync", self._tooltip_text()))

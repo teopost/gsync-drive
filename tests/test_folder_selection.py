@@ -147,3 +147,21 @@ def test_ensure_filters_file_does_not_touch_existing(tmp_path):
     before = f.read_text()
     ensure_filters_file(f, include_dirs=["Documenti"])  # must be a no-op
     assert f.read_text() == before
+
+
+# --------------------------------------------------------------------------- #
+# Tray: aggregated state (worst state wins)
+# --------------------------------------------------------------------------- #
+
+def test_tray_aggregate_state():
+    gi.require_version("Gtk", "4.0")
+    from gdrive_sync.daemon.tray import aggregate_state
+    assert aggregate_state([]) == "idle"
+    assert aggregate_state(["idle", "idle"]) == "idle"
+    assert aggregate_state(["idle", "syncing"]) == "syncing"
+    assert aggregate_state(["resyncing"]) == "syncing"
+    assert aggregate_state(["syncing", "error"]) == "error"
+    assert aggregate_state(["idle", "needs_resync"]) == "error"
+    assert aggregate_state(["paused", "paused"]) == "paused"
+    assert aggregate_state(["paused", "idle"]) == "idle"
+    assert aggregate_state(["offline", "paused"]) == "offline"

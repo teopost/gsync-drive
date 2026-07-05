@@ -1,3 +1,11 @@
+gdrive-sync (0.5.1) unstable; urgency=medium
+
+  * The tray icon now reflects what the daemon is doing: synchronization
+    arrows while syncing, pause, offline and warning icons, and the app
+    icon when everything is up to date.
+
+ -- Stefano Teodorani <stefano.teodorani@horsa.it>  Sun, 05 Jul 2026 16:00:00 +0200
+
 gdrive-sync (0.5.0) unstable; urgency=medium
 
   * System tray icon (StatusNotifierItem, implemented over plain D-Bus in

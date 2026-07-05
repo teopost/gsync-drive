@@ -33,6 +33,12 @@
   </developer>
   <content_rating type="oars-1.1"/>
   <releases>
+    <release version="0.5.1" date="2026-07-05">
+      <description>
+        <p>The tray icon now changes with the sync state (syncing, paused,
+        offline, error, up to date).</p>
+      </description>
+    </release>
     <release version="0.5.0" date="2026-07-05">
       <description>
         <p>Optional system tray icon (StatusNotifierItem) with per-account
