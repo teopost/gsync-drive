@@ -1,3 +1,18 @@
+gdrive-sync (0.6.0) unstable; urgency=medium
+
+  * Fix: a brand-new account whose local folder starts out empty failed
+    every synchronization with "empty prior Path1 listing" (the manual
+    sync button appeared broken and adding a file triggered an error).
+    Nothing is tracked in that state, so the engine now realigns
+    automatically once — with a guard against loops.
+  * New application-wide Preferences dialog (main menu): the tray icon
+    and start-at-login options moved there from the per-account
+    preferences, together with a Service log viewer.
+  * The per-account log now shows only that account's sync log (service
+    messages moved to the global dialog).
+
+ -- Stefano Teodorani <stefano.teodorani@horsa.it>  Sun, 05 Jul 2026 17:00:00 +0200
+
 gdrive-sync (0.5.1) unstable; urgency=medium
 
   * The tray icon now reflects what the daemon is doing: synchronization

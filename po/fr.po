@@ -432,3 +432,18 @@ msgstr "Icône dans la zone de notification"
 msgid "Applies to all accounts; on GNOME it requires the AppIndicator extension"
 msgstr "S'applique à tous les comptes ; sur GNOME, nécessite l'extension AppIndicator"
 
+msgid "Preferences"
+msgstr "Préférences"
+
+msgid "On GNOME it requires the AppIndicator extension"
+msgstr "Sur GNOME, nécessite l'extension AppIndicator"
+
+msgid "Diagnostics"
+msgstr "Diagnostic"
+
+msgid "Service log"
+msgstr "Journal du service"
+
+msgid "Messages from the synchronization service"
+msgstr "Messages du service de synchronisation"
+

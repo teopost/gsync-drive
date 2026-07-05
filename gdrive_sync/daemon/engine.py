@@ -7,6 +7,7 @@ from __future__ import annotations
 
 import json
 import logging
+import re
 import threading
 import time
 from enum import Enum
@@ -18,6 +19,10 @@ from ..config import AccountConfig, ensure_filters_file
 from ..i18n import _, ngettext
 
 log = logging.getLogger(__name__)
+
+# A prior listing can only be empty if the last known state tracked zero
+# files; a resync then cannot delete anything, so automating it is safe.
+_EMPTY_LISTING_RE = re.compile(r"empty prior Path[12] listing", re.I)
 
 
 class State(Enum):
@@ -52,6 +57,7 @@ class Engine:
         self._dirty = False           # changes seen while a sync was running
         self._retry_index = 0
         self._lock_retried = False
+        self._empty_listing_retried = False
         self._timer_id = 0
         self._state_before_pause: State | None = None
         self._current_run: rclone.BisyncRun | None = None
@@ -254,6 +260,7 @@ class Engine:
         if result.ok:
             self._retry_index = 0
             self._lock_retried = False
+            self._empty_listing_retried = False
             self.last_sync_time = int(time.time())
             new_conflicts = self._rescan_conflicts()
             self._set_state(State.IDLE)
@@ -295,7 +302,18 @@ class Engine:
                     _("A bisync lock persists: another synchronization may be "
                       "running, or a previous one was interrupted abruptly."))
         elif result.outcome is rclone.Outcome.NEEDS_RESYNC:
-            self._enter_needs_resync(result.stderr or result.log_tail[-500:])
+            text = f"{result.stderr}\n{result.log_tail}"
+            if _EMPTY_LISTING_RE.search(text) and not self._empty_listing_retried:
+                # The account started out empty (fresh folder / empty Drive
+                # selection): bisync aborts every run until a resync. Nothing
+                # is tracked, so nothing can be lost — resync automatically.
+                self._empty_listing_retried = True
+                log.info("[%s] empty prior listing; auto-resync (nothing tracked)",
+                         self.account.id)
+                self._set_state(State.IDLE)
+                self._start_run(resync=True)
+            else:
+                self._enter_needs_resync(result.stderr or result.log_tail[-500:])
         elif result.outcome is rclone.Outcome.TRANSIENT:
             delay = const.RETRY_BACKOFF[min(self._retry_index, len(const.RETRY_BACKOFF) - 1)]
             self._retry_index += 1

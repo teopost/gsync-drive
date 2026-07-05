@@ -139,14 +139,10 @@ class DBusService:
     @staticmethod
     def _read_log(sync_log: Path, lines: int) -> list[str]:
         lines = min(int(lines) or 200, 2000)
-        out: list[str] = []
-        for logfile in (sync_log, const.DAEMON_LOG_FILE):
-            try:
-                content = Path(logfile).read_text(errors="replace").splitlines()
-                out += [f"[{Path(logfile).name}] {line}" for line in content[-lines:]]
-            except OSError:
-                continue
-        return out[-lines:]
+        try:
+            return Path(sync_log).read_text(errors="replace").splitlines()[-lines:]
+        except OSError:
+            return []
 
     # ------------------------------------------------------------- outbound
 

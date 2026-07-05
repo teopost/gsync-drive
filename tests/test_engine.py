@@ -193,3 +193,30 @@ def test_dirty_rerun_after_sync(engine, monkeypatch):
     pump(0.3)
     wait_for_state(engine, State.IDLE)
     assert run_count >= 2
+
+
+def test_empty_prior_listing_auto_resyncs(engine):
+    """A brand-new empty account must self-heal instead of demanding a manual
+    repair: an empty prior listing means nothing is tracked, so an automatic
+    resync cannot delete anything."""
+    states = []
+    engine.on_state_changed = states.append
+    notifications = []
+    engine.on_notify = lambda kind, t, b: notifications.append(kind)
+    engine._queue.append(SyncResult(
+        Outcome.NEEDS_RESYNC, 7,
+        stderr="Bisync critical error: empty prior Path1 listing: x.path1.lst"))
+    engine.start()
+    wait_for_state(engine, State.IDLE)
+    assert State.RESYNCING in states          # auto-resync ran
+    assert "needs-resync" not in notifications
+
+
+def test_empty_listing_auto_resync_does_not_loop(engine):
+    """If the auto-resync itself ends with another empty-listing abort, the
+    engine must fall back to NEEDS_RESYNC instead of resyncing forever."""
+    err = "Bisync critical error: empty prior Path1 listing: x.path1.lst"
+    engine._queue.append(SyncResult(Outcome.NEEDS_RESYNC, 7, stderr=err))
+    engine._queue.append(SyncResult(Outcome.NEEDS_RESYNC, 7, stderr=err))
+    engine.start()
+    wait_for_state(engine, State.NEEDS_RESYNC)

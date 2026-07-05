@@ -33,6 +33,13 @@
   </developer>
   <content_rating type="oars-1.1"/>
   <releases>
+    <release version="0.6.0" date="2026-07-05">
+      <description>
+        <p>New accounts with an empty folder self-heal instead of failing
+        every sync; application-wide preferences dialog (tray icon,
+        autostart, service log) separated from per-account settings.</p>
+      </description>
+    </release>
     <release version="0.5.1" date="2026-07-05">
       <description>
         <p>The tray icon now changes with the sync state (syncing, paused,

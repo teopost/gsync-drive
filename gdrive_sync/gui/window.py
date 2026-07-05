@@ -12,6 +12,7 @@ from gi.repository import Adw, Gio, GLib, Gtk
 from .. import const, rclone
 from ..config import Config
 from ..i18n import _, ngettext
+from .app_preferences import AppPreferencesDialog
 from .conflicts_page import ConflictsDialog
 from .daemon_proxy import DaemonProxy
 from .preferences import PreferencesDialog
@@ -115,6 +116,7 @@ class MainWindow(Adw.ApplicationWindow):
         header.pack_start(add_btn)
 
         menu = Gio.Menu()
+        menu.append(_("Preferences…"), "win.app-prefs")
         menu.append(_("About"), "win.about")
         header.pack_end(Gtk.MenuButton(icon_name="open-menu-symbolic", menu_model=menu))
         toolbar.add_top_bar(header)
@@ -168,6 +170,11 @@ class MainWindow(Adw.ApplicationWindow):
         about = Gio.SimpleAction.new("about", None)
         about.connect("activate", lambda *_: self._show_about())
         self.add_action(about)
+        app_prefs = Gio.SimpleAction.new("app-prefs", None)
+        app_prefs.connect(
+            "activate",
+            lambda *_: AppPreferencesDialog(self.config).present(self))
+        self.add_action(app_prefs)
 
         proxy.connect("state-changed", lambda _p, aid, _s: self._refresh_account(aid))
         proxy.connect("sync-completed", lambda _p, aid, _ok, _n: self._refresh_account(aid))
@@ -247,8 +254,7 @@ class MainWindow(Adw.ApplicationWindow):
         ConflictsDialog(self.config.account(account_id), self.proxy).present(self)
 
     def _act_prefs(self, account_id: str) -> None:
-        PreferencesDialog(self.config.account(account_id), self.proxy,
-                          self.config).present(self)
+        PreferencesDialog(self.config.account(account_id), self.proxy).present(self)
 
     def _act_show_log(self, account_id: str) -> None:
         dialog = Adw.Dialog(title=_("Synchronization log"),

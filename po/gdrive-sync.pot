@@ -432,3 +432,18 @@ msgstr ""
 msgid "Applies to all accounts; on GNOME it requires the AppIndicator extension"
 msgstr ""
 
+msgid "Preferences"
+msgstr ""
+
+msgid "On GNOME it requires the AppIndicator extension"
+msgstr ""
+
+msgid "Diagnostics"
+msgstr ""
+
+msgid "Service log"
+msgstr ""
+
+msgid "Messages from the synchronization service"
+msgstr ""
+
