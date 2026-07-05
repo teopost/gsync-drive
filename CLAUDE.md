@@ -55,6 +55,11 @@ GSETTINGS_SCHEMA_DIR=/tmp/gds-schemas python3 -m gdrive_sync.daemon.main
   fails. The wizard calls `account.purge_state()` before publishing;
   `Config.remove_account()` purges too. Keep it that way.
 - The daemon decides `--resync` from `last_sync_time == 0` (status file).
+- **Never act on a schema-fallback Config in production**: when the
+  GSettings schemas are unavailable (e.g. during a package upgrade),
+  `Config` falls back to an empty in-memory store meant for tests. Check
+  `config.schema_ok` before treating "no accounts" as truth — a wizard
+  launched on the fallback purges real accounts' state.
 - **Never run a second bisync in the daemon's workdir** (not even
   `--dry-run`): its lock makes the real sync/resync fail instantly. Any
   GUI-side preview must use its own scratch workdir and be cancelled when
