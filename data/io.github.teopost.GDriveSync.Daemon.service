@@ -1,0 +1,4 @@
+[D-BUS Service]
+Name=io.github.teopost.GDriveSync.Daemon
+Exec=/usr/bin/gdrive-sync-daemon
+SystemdService=gdrive-sync-daemon.service

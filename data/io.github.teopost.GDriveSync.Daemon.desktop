@@ -1,0 +1,11 @@
+[Desktop Entry]
+Name=GDrive Sync
+Name[it]=GDrive Sync
+Comment=Google Drive sync service
+Comment[it]=Servizio di sincronizzazione Google Drive
+Comment[fr]=Service de synchronisation Google Drive
+Exec=gdrive-sync-daemon
+Icon=io.github.teopost.GDriveSync
+Terminal=false
+Type=Application
+NoDisplay=true

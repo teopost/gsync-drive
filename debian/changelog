@@ -1,0 +1,50 @@
+gdrive-sync (0.4.1) unstable; urgency=medium
+
+  * Fix: the first synchronization of a new account failed with "filters
+    file has changed (must run --resync)" when bisync state from a removed
+    account or a previous installation was still on disk. The wizard now
+    starts from a clean per-account state, and removing an account also
+    deletes its bisync listings, status, log and filters file.
+
+ -- Stefano Teodorani <stefano.teodorani@horsa.it>  Sun, 05 Jul 2026 12:00:00 +0200
+
+gdrive-sync (0.4.0) unstable; urgency=medium
+
+  * Setup wizard: the first page now only asks to connect the Google
+    account; folder selection moved to its own page.
+  * Multiple Drive folders can be selected for synchronization from a
+    checkbox tree that also shows the size of each folder (selection is
+    applied through rclone filter rules).
+  * Multi-language interface: English, French and Italian, chosen
+    automatically from the system language.
+
+ -- Stefano Teodorani <stefano.teodorani@horsa.it>  Sun, 05 Jul 2026 10:00:00 +0200
+
+gdrive-sync (0.3.0) unstable; urgency=medium
+
+  * Multiple Google accounts: each with its own remote, local folder,
+    schedule, exclusions and conflict handling; account list in the main
+    window with add/remove.
+  * The first synchronization now runs in the sync daemon: closing the
+    setup window asks whether to keep syncing in the background or stop
+    and cancel the account setup.
+  * v0.2 single-account configurations are migrated automatically.
+
+ -- Stefano Teodorani <stefano.teodorani@horsa.it>  Sat, 04 Jul 2026 20:00:00 +0200
+
+gdrive-sync (0.2.0) unstable; urgency=medium
+
+  * Setup wizard: progress bar during the initial sync, with the detailed
+    file list available on demand via an expander.
+  * Setup wizard: browse Google Drive folders (after authentication) to pick
+    the folder to synchronize, instead of entering a folder ID by hand.
+
+ -- Stefano Teodorani <stefano.teodorani@horsa.it>  Sat, 04 Jul 2026 19:00:00 +0200
+
+gdrive-sync (0.1.0) unstable; urgency=medium
+
+  * Initial release: bidirectional Google Drive sync for GNOME based on
+    rclone bisync, with GTK4/libadwaita app, systemd user daemon,
+    desktop notifications and conflict review.
+
+ -- Stefano Teodorani <stefano.teodorani@horsa.it>  Sat, 04 Jul 2026 18:00:00 +0200

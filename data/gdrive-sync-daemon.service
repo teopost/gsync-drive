@@ -1,0 +1,14 @@
+[Unit]
+Description=Google Drive sync daemon (gdrive-sync)
+After=graphical-session.target
+
+[Service]
+Type=dbus
+BusName=io.github.teopost.GDriveSync.Daemon
+ExecStart=/usr/bin/gdrive-sync-daemon
+Restart=on-failure
+RestartSec=10
+Slice=background.slice
+
+[Install]
+WantedBy=default.target

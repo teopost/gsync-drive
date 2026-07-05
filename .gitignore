@@ -1,0 +1,15 @@
+.venv/
+__pycache__/
+*.pyc
+*.egg-info/
+build/
+dist/
+*.deb
+debian/.debhelper/
+debian/gdrive-sync/
+debian/files
+debian/*.debhelper*
+debian/*.substvars
+locale/
+.pytest_cache/
+.claude/

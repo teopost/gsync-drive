@@ -1,0 +1,392 @@
+# it translation of gdrive-sync.
+msgid ""
+msgstr ""
+"Project-Id-Version: gdrive-sync 0.4.0\n"
+"Language: it\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Plural-Forms: nplurals=2; plural=(n != 1);\n"
+
+msgid "A manual check is needed before resuming. Open GDrive Sync for the guided repair."
+msgstr "Serve una verifica manuale prima di riprendere. Apri GDrive Sync per il ripristino guidato."
+
+msgid "A bisync lock persists: another synchronization may be running, or a previous one was interrupted abruptly."
+msgstr "Un lock di bisync persiste: un'altra sincronizzazione potrebbe essere in corso, oppure una precedente è stata interrotta bruscamente."
+
+msgid "{account}: synchronization interrupted"
+msgstr "{account}: sincronizzazione interrotta"
+
+msgid "rclone remote {remote} is missing"
+msgstr "remote rclone {remote} mancante"
+
+msgid "Synchronization stopped due to an error. Open GDrive Sync for details."
+msgstr "La sincronizzazione si è fermata per un errore. Apri GDrive Sync per i dettagli."
+
+msgid "{account}: first synchronization completed"
+msgstr "{account}: prima sincronizzazione completata"
+
+msgid "The folder {folder} is now synchronized with Google Drive."
+msgstr "La cartella {folder} è ora sincronizzata con Google Drive."
+
+msgid "{account}: synchronization conflicts"
+msgstr "{account}: conflitti di sincronizzazione"
+
+msgid "temporary error"
+msgstr "errore temporaneo"
+
+msgid "Google Drive has been unreachable for several attempts."
+msgstr "Google Drive non è raggiungibile da diversi tentativi."
+
+msgid "fatal error"
+msgstr "errore fatale"
+
+msgid "{account}: synchronization error"
+msgstr "{account}: errore di sincronizzazione"
+
+msgid "{account}: synchronization failing"
+msgstr "{account}: sincronizzazione in errore"
+
+msgid "Review"
+msgstr "Rivedi"
+
+msgid "No conflicts"
+msgstr "Nessun conflitto"
+
+msgid "All files are aligned."
+msgstr "Tutti i file sono allineati."
+
+msgid "These files were modified both locally and on Drive. Choose which version to keep; the choice will be applied at the next synchronization."
+msgstr "Questi file sono stati modificati sia in locale che su Drive. Scegli quale versione tenere; la scelta verrà applicata alla prossima sincronizzazione."
+
+msgid "Local"
+msgstr "Locale"
+
+msgid "Drive"
+msgstr "Drive"
+
+msgid "Both"
+msgstr "Entrambi"
+
+msgid "Conflicts — {account}"
+msgstr "Conflitti — {account}"
+
+msgid "No folders"
+msgstr "Nessuna cartella"
+
+msgid "Your Drive has no folders; the whole Drive will be synchronized."
+msgstr "Il tuo Drive non contiene cartelle; verrà sincronizzato tutto il Drive."
+
+msgid "Cannot list Drive folders"
+msgstr "Impossibile elencare le cartelle di Drive"
+
+msgid "Retry"
+msgstr "Riprova"
+
+msgid "General"
+msgstr "Generale"
+
+msgid "Account"
+msgstr "Account"
+
+msgid "Account name"
+msgstr "Nome account"
+
+msgid "Synchronization"
+msgstr "Sincronizzazione"
+
+msgid "Synchronization interval"
+msgstr "Intervallo di sincronizzazione"
+
+msgid "Seconds between periodic synchronizations"
+msgstr "Secondi tra una sincronizzazione periodica e l'altra"
+
+msgid "Bandwidth limit (e.g. 1M, 500K, empty = none)"
+msgstr "Limite di banda (es. 1M, 500K, vuoto = nessuno)"
+
+msgid "Deletion safety threshold"
+msgstr "Soglia di sicurezza cancellazioni"
+
+msgid "Aborts a sync that would delete more than this % of files"
+msgstr "Interrompe la sync che cancellerebbe più di questa % di file"
+
+msgid "Exclusions"
+msgstr "Esclusioni"
+
+msgid "rclone patterns of files not to synchronize (e.g. *.iso, cache/**)"
+msgstr "Pattern rclone dei file da non sincronizzare (es. *.iso, cache/**)"
+
+msgid "New pattern"
+msgstr "Nuovo pattern"
+
+msgid "Add"
+msgstr "Aggiungi"
+
+msgid "Integration"
+msgstr "Integrazione"
+
+msgid "Folder in the Files sidebar"
+msgstr "Cartella nella barra laterale di File"
+
+msgid "Start synchronization at login"
+msgstr "Avvia la sincronizzazione all'accesso"
+
+msgid "Applies to all accounts"
+msgstr "Vale per tutti gli account"
+
+msgid "Remove"
+msgstr "Rimuovi"
+
+msgid "Preferences — {account}"
+msgstr "Preferenze — {account}"
+
+msgid "Up to date"
+msgstr "Aggiornato"
+
+msgid "Synchronizing…"
+msgstr "Sincronizzazione…"
+
+msgid "First synchronization…"
+msgstr "Prima sincronizzazione…"
+
+msgid "Paused"
+msgstr "In pausa"
+
+msgid "Offline"
+msgstr "Offline"
+
+msgid "Error"
+msgstr "Errore"
+
+msgid "Needs repair"
+msgstr "Serve un ripristino"
+
+msgid "Not configured"
+msgstr "Non configurato"
+
+msgid "never synchronized"
+msgstr "mai sincronizzato"
+
+msgid "just now"
+msgstr "adesso"
+
+msgid "{days} days ago"
+msgstr "{days} giorni fa"
+
+msgid "Pause / Resume"
+msgstr "Pausa / Riprendi"
+
+msgid "Conflicts…"
+msgstr "Conflitti…"
+
+msgid "Log…"
+msgstr "Log…"
+
+msgid "Preferences…"
+msgstr "Preferenze…"
+
+msgid "Repair…"
+msgstr "Ripara…"
+
+msgid "Remove account…"
+msgstr "Rimuovi account…"
+
+msgid "About"
+msgstr "Informazioni"
+
+msgid "Cancel"
+msgstr "Annulla"
+
+msgid "Repair"
+msgstr "Ripristina"
+
+msgid "{minutes} min ago"
+msgstr "{minutes} min fa"
+
+msgid "{hours} h ago"
+msgstr "{hours} h fa"
+
+msgid "Synchronize now"
+msgstr "Sincronizza ora"
+
+msgid "Add Google account"
+msgstr "Aggiungi account Google"
+
+msgid "Accounts"
+msgstr "Account"
+
+msgid "No account configured"
+msgstr "Nessun account configurato"
+
+msgid "Connect a Google account to start synchronizing."
+msgstr "Collega un account Google per iniziare a sincronizzare."
+
+msgid "Service not running"
+msgstr "Servizio non in esecuzione"
+
+msgid "Synchronization log"
+msgstr "Log di sincronizzazione"
+
+msgid "Remove the account?"
+msgstr "Rimuovere l'account?"
+
+msgid "Computing what the repair would involve…"
+msgstr "Sto calcolando cosa comporterebbe il ripristino…"
+
+msgid "The synchronization service is not responding.\nStart it with: {command}"
+msgstr "Il servizio di sincronizzazione non risponde.\nAvvialo con: {command}"
+
+msgid "{account}: synchronization interrupted, needs attention"
+msgstr "{account}: sincronizzazione interrotta, serve una verifica"
+
+msgid "Synchronization of “{account}” will stop.\nThe local files in {folder} will NOT be deleted."
+msgstr "La sincronizzazione di “{account}” verrà interrotta.\nI file locali in {folder} NON verranno cancellati."
+
+msgid "Bidirectional Google Drive synchronization for GNOME, based on rclone."
+msgstr "Sincronizzazione bidirezionale con Google Drive per GNOME, basata su rclone."
+
+msgid "Repair of “{account}”"
+msgstr "Ripristino di “{account}”"
+
+msgid "The repair realigns both sides and resumes synchronization.\n\n⚠ For files that differ on both sides, the LOCAL version wins.\n⚠ Files deleted on one side only after the last successful synchronization will be RESTORED.\n\nExpected operations: about {changes}."
+msgstr "Il ripristino riallinea i due lati e riprende la sincronizzazione.\n\n⚠ Per i file diversi su entrambi i lati vince la versione LOCALE.\n⚠ I file cancellati da un solo lato dopo l'ultima sincronizzazione riuscita verranno RIPRISTINATI.\n\nOperazioni previste: circa {changes}."
+
+msgid "Preview not available ({error}). You can proceed anyway."
+msgstr "Anteprima non disponibile ({error}). Puoi comunque procedere."
+
+msgid "Log not available: {message}"
+msgstr "Log non disponibile: {message}"
+
+msgid "Connect Google account"
+msgstr "Collega account Google"
+
+msgid "Next"
+msgstr "Avanti"
+
+msgid "Waiting for the authorization in the browser…"
+msgstr "In attesa dell'autorizzazione nel browser…"
+
+msgid "Drive folders"
+msgstr "Cartelle di Drive"
+
+msgid "Start first synchronization"
+msgstr "Avvia prima sincronizzazione"
+
+msgid "Folder"
+msgstr "Cartella"
+
+msgid "Done"
+msgstr "Fine"
+
+msgid "Analyzing files…"
+msgstr "Analisi dei file…"
+
+msgid "Back to setup"
+msgstr "Torna alla configurazione"
+
+msgid "Stop and cancel"
+msgstr "Ferma e annulla"
+
+msgid "Add Google Drive account"
+msgstr "Aggiungi account Google Drive"
+
+msgid "Connect your Google account"
+msgstr "Collega il tuo account Google"
+
+msgid "Your browser will open to authorize access to Google Drive.\nCredentials stay on this computer only."
+msgstr "Si aprirà il browser per autorizzare l'accesso a Google Drive.\nLe credenziali restano solo su questo computer."
+
+msgid "Account connected ✓"
+msgstr "Account collegato ✓"
+
+msgid "Folders to synchronize"
+msgstr "Cartelle da sincronizzare"
+
+msgid "Check the Drive folders you want to keep on this computer. With no selection, the whole Drive is synchronized."
+msgstr "Seleziona le cartelle di Drive da tenere su questo computer. Senza selezione viene sincronizzato tutto il Drive."
+
+msgid "Whole Drive"
+msgstr "Tutto il Drive"
+
+msgid "Local folder"
+msgstr "Cartella locale"
+
+msgid "Choose where to keep the files synchronized with Google Drive."
+msgstr "Scegli dove tenere i file sincronizzati con Google Drive."
+
+msgid "Account name (e.g. Personal, Work)"
+msgstr "Nome account (es. Personale, Lavoro)"
+
+msgid "Show in the Files sidebar"
+msgstr "Mostra nella barra laterale di File"
+
+msgid "Choose the synchronization folder"
+msgstr "Scegli la cartella di sincronizzazione"
+
+msgid "You can close this window: the synchronization can continue in the background."
+msgstr "Puoi chiudere questa finestra: la sincronizzazione può proseguire in background."
+
+msgid "Show details"
+msgstr "Mostra dettagli"
+
+msgid "Completed"
+msgstr "Completato"
+
+msgid "All set"
+msgstr "Tutto pronto"
+
+msgid "Synchronization failed"
+msgstr "Sincronizzazione non riuscita"
+
+msgid "First synchronization in progress"
+msgstr "Prima sincronizzazione in corso"
+
+msgid "Do you want the synchronization to continue in the background, or would you rather stop it and cancel this account setup?"
+msgstr "Vuoi che la sincronizzazione prosegua in background o preferisci fermarla e annullare la configurazione di questo account?"
+
+msgid "Continue in background"
+msgstr "Prosegui in background"
+
+msgid "rclone not found"
+msgstr "rclone non trovato"
+
+msgid "GDrive Sync uses rclone as its synchronization engine.\nInstall the “rclone” package and reopen this assistant."
+msgstr "GDrive Sync usa rclone come motore di sincronizzazione.\nInstalla il pacchetto “rclone” e riapri questa procedura."
+
+msgid "Unknown error"
+msgstr "Errore sconosciuto"
+
+msgid "the remote does not respond after configuration"
+msgstr "il remote non risponde dopo la configurazione"
+
+msgid "Timed out: authorization not completed."
+msgstr "Tempo scaduto: autorizzazione non completata."
+
+msgid "Error: {message}"
+msgstr "Errore: {message}"
+
+msgid "{count} selected: {folders}"
+msgstr "{count} selezionate: {folders}"
+
+msgid "The folder {folder} is synchronized with Google Drive."
+msgstr "La cartella {folder} è sincronizzata con Google Drive."
+
+msgid "authorization cancelled"
+msgstr "autorizzazione annullata"
+
+msgid "Transferring… {percent}%"
+msgstr "Trasferimento… {percent}%"
+
+msgid "rclone {major}.{minor} detected: sync works but is more robust with rclone ≥ 1.66 (rclone.org)"
+msgstr "rclone {major}.{minor} rilevato: la sync funziona ma è più robusta con rclone ≥ 1.66 (rclone.org)"
+
+msgid "{n} file modified both locally and on Drive needs a decision."
+msgid_plural "{n} files modified both locally and on Drive need a decision."
+msgstr[0] "{n} file modificato sia in locale che su Drive richiede una scelta."
+msgstr[1] "{n} file modificati sia in locale che su Drive richiedono una scelta."
+
+msgid "{n} conflict"
+msgid_plural "{n} conflicts"
+msgstr[0] "{n} conflitto"
+msgstr[1] "{n} conflitti"
+

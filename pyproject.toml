@@ -1,0 +1,31 @@
+[build-system]
+requires = ["setuptools>=61"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "gdrive-sync"
+version = "0.4.1"
+description = "Google Drive bidirectional sync for GNOME"
+readme = "README.md"
+license = "GPL-3.0-or-later"
+authors = [{ name = "Stefano Teodorani", email = "stefano.teodorani@horsa.it" }]
+# Runtime deps (python3-gi, python3-watchdog) come from distro packages;
+# declared in debian/control, not here, because PyGObject cannot build via pip.
+requires-python = ">=3.10"
+
+[project.urls]
+Homepage = "https://github.com/teopost/gsync-drive"
+
+[project.scripts]
+gdrive-sync-daemon = "gdrive_sync.daemon.main:main"
+
+[project.gui-scripts]
+gdrive-sync = "gdrive_sync.gui.main:main"
+
+[tool.setuptools.packages.find]
+include = ["gdrive_sync*"]
+
+[tool.pytest.ini_options]
+testpaths = ["tests"]
+# Prefer the checkout over any system-installed copy of the package.
+pythonpath = ["."]

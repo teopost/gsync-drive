@@ -1,0 +1,23 @@
+[Desktop Entry]
+Name=GDrive Sync
+Name[it]=GDrive Sync
+Comment=Bidirectional Google Drive synchronization for GNOME
+Comment[it]=Sincronizzazione bidirezionale con Google Drive per GNOME
+Comment[fr]=Synchronisation bidirectionnelle avec Google Drive pour GNOME
+Exec=gdrive-sync
+Icon=io.github.teopost.GDriveSync
+Terminal=false
+Type=Application
+Categories=Network;FileTransfer;GTK;GNOME;
+Keywords=google;drive;sync;cloud;
+Keywords[it]=google;drive;sincronizzazione;cloud;
+Keywords[fr]=google;drive;synchronisation;cloud;
+StartupNotify=true
+
+Actions=show-conflicts;
+
+[Desktop Action show-conflicts]
+Name=Review conflicts
+Name[it]=Rivedi conflitti
+Name[fr]=Examiner les conflits
+Exec=gdrive-sync --gapplication-app-id=io.github.teopost.GDriveSync

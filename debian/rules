@@ -1,0 +1,19 @@
+#!/usr/bin/make -f
+
+%:
+	dh $@ --with python3 --buildsystem=pybuild
+
+override_dh_auto_build:
+	dh_auto_build
+	set -e; for po in po/*.po; do \
+		lang=$$(basename $$po .po); \
+		mkdir -p debian/locale/$$lang/LC_MESSAGES; \
+		if command -v msgfmt >/dev/null 2>&1; then \
+			msgfmt -o debian/locale/$$lang/LC_MESSAGES/gdrive-sync.mo $$po; \
+		else \
+			python3 po/compile-mo.py $$po debian/locale/$$lang/LC_MESSAGES/gdrive-sync.mo; \
+		fi; \
+	done
+
+override_dh_installsystemduser:
+	dh_installsystemduser --no-enable

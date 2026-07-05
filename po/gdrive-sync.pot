@@ -1,0 +1,392 @@
+#  translation of gdrive-sync.
+msgid ""
+msgstr ""
+"Project-Id-Version: gdrive-sync 0.4.0\n"
+"Language: \n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Plural-Forms: nplurals=2; plural=(n != 1);\n"
+
+msgid "A manual check is needed before resuming. Open GDrive Sync for the guided repair."
+msgstr ""
+
+msgid "A bisync lock persists: another synchronization may be running, or a previous one was interrupted abruptly."
+msgstr ""
+
+msgid "{account}: synchronization interrupted"
+msgstr ""
+
+msgid "rclone remote {remote} is missing"
+msgstr ""
+
+msgid "Synchronization stopped due to an error. Open GDrive Sync for details."
+msgstr ""
+
+msgid "{account}: first synchronization completed"
+msgstr ""
+
+msgid "The folder {folder} is now synchronized with Google Drive."
+msgstr ""
+
+msgid "{account}: synchronization conflicts"
+msgstr ""
+
+msgid "temporary error"
+msgstr ""
+
+msgid "Google Drive has been unreachable for several attempts."
+msgstr ""
+
+msgid "fatal error"
+msgstr ""
+
+msgid "{account}: synchronization error"
+msgstr ""
+
+msgid "{account}: synchronization failing"
+msgstr ""
+
+msgid "Review"
+msgstr ""
+
+msgid "No conflicts"
+msgstr ""
+
+msgid "All files are aligned."
+msgstr ""
+
+msgid "These files were modified both locally and on Drive. Choose which version to keep; the choice will be applied at the next synchronization."
+msgstr ""
+
+msgid "Local"
+msgstr ""
+
+msgid "Drive"
+msgstr ""
+
+msgid "Both"
+msgstr ""
+
+msgid "Conflicts — {account}"
+msgstr ""
+
+msgid "No folders"
+msgstr ""
+
+msgid "Your Drive has no folders; the whole Drive will be synchronized."
+msgstr ""
+
+msgid "Cannot list Drive folders"
+msgstr ""
+
+msgid "Retry"
+msgstr ""
+
+msgid "General"
+msgstr ""
+
+msgid "Account"
+msgstr ""
+
+msgid "Account name"
+msgstr ""
+
+msgid "Synchronization"
+msgstr ""
+
+msgid "Synchronization interval"
+msgstr ""
+
+msgid "Seconds between periodic synchronizations"
+msgstr ""
+
+msgid "Bandwidth limit (e.g. 1M, 500K, empty = none)"
+msgstr ""
+
+msgid "Deletion safety threshold"
+msgstr ""
+
+msgid "Aborts a sync that would delete more than this % of files"
+msgstr ""
+
+msgid "Exclusions"
+msgstr ""
+
+msgid "rclone patterns of files not to synchronize (e.g. *.iso, cache/**)"
+msgstr ""
+
+msgid "New pattern"
+msgstr ""
+
+msgid "Add"
+msgstr ""
+
+msgid "Integration"
+msgstr ""
+
+msgid "Folder in the Files sidebar"
+msgstr ""
+
+msgid "Start synchronization at login"
+msgstr ""
+
+msgid "Applies to all accounts"
+msgstr ""
+
+msgid "Remove"
+msgstr ""
+
+msgid "Preferences — {account}"
+msgstr ""
+
+msgid "Up to date"
+msgstr ""
+
+msgid "Synchronizing…"
+msgstr ""
+
+msgid "First synchronization…"
+msgstr ""
+
+msgid "Paused"
+msgstr ""
+
+msgid "Offline"
+msgstr ""
+
+msgid "Error"
+msgstr ""
+
+msgid "Needs repair"
+msgstr ""
+
+msgid "Not configured"
+msgstr ""
+
+msgid "never synchronized"
+msgstr ""
+
+msgid "just now"
+msgstr ""
+
+msgid "{days} days ago"
+msgstr ""
+
+msgid "Pause / Resume"
+msgstr ""
+
+msgid "Conflicts…"
+msgstr ""
+
+msgid "Log…"
+msgstr ""
+
+msgid "Preferences…"
+msgstr ""
+
+msgid "Repair…"
+msgstr ""
+
+msgid "Remove account…"
+msgstr ""
+
+msgid "About"
+msgstr ""
+
+msgid "Cancel"
+msgstr ""
+
+msgid "Repair"
+msgstr ""
+
+msgid "{minutes} min ago"
+msgstr ""
+
+msgid "{hours} h ago"
+msgstr ""
+
+msgid "Synchronize now"
+msgstr ""
+
+msgid "Add Google account"
+msgstr ""
+
+msgid "Accounts"
+msgstr ""
+
+msgid "No account configured"
+msgstr ""
+
+msgid "Connect a Google account to start synchronizing."
+msgstr ""
+
+msgid "Service not running"
+msgstr ""
+
+msgid "Synchronization log"
+msgstr ""
+
+msgid "Remove the account?"
+msgstr ""
+
+msgid "Computing what the repair would involve…"
+msgstr ""
+
+msgid "The synchronization service is not responding.\nStart it with: {command}"
+msgstr ""
+
+msgid "{account}: synchronization interrupted, needs attention"
+msgstr ""
+
+msgid "Synchronization of “{account}” will stop.\nThe local files in {folder} will NOT be deleted."
+msgstr ""
+
+msgid "Bidirectional Google Drive synchronization for GNOME, based on rclone."
+msgstr ""
+
+msgid "Repair of “{account}”"
+msgstr ""
+
+msgid "The repair realigns both sides and resumes synchronization.\n\n⚠ For files that differ on both sides, the LOCAL version wins.\n⚠ Files deleted on one side only after the last successful synchronization will be RESTORED.\n\nExpected operations: about {changes}."
+msgstr ""
+
+msgid "Preview not available ({error}). You can proceed anyway."
+msgstr ""
+
+msgid "Log not available: {message}"
+msgstr ""
+
+msgid "Connect Google account"
+msgstr ""
+
+msgid "Next"
+msgstr ""
+
+msgid "Waiting for the authorization in the browser…"
+msgstr ""
+
+msgid "Drive folders"
+msgstr ""
+
+msgid "Start first synchronization"
+msgstr ""
+
+msgid "Folder"
+msgstr ""
+
+msgid "Done"
+msgstr ""
+
+msgid "Analyzing files…"
+msgstr ""
+
+msgid "Back to setup"
+msgstr ""
+
+msgid "Stop and cancel"
+msgstr ""
+
+msgid "Add Google Drive account"
+msgstr ""
+
+msgid "Connect your Google account"
+msgstr ""
+
+msgid "Your browser will open to authorize access to Google Drive.\nCredentials stay on this computer only."
+msgstr ""
+
+msgid "Account connected ✓"
+msgstr ""
+
+msgid "Folders to synchronize"
+msgstr ""
+
+msgid "Check the Drive folders you want to keep on this computer. With no selection, the whole Drive is synchronized."
+msgstr ""
+
+msgid "Whole Drive"
+msgstr ""
+
+msgid "Local folder"
+msgstr ""
+
+msgid "Choose where to keep the files synchronized with Google Drive."
+msgstr ""
+
+msgid "Account name (e.g. Personal, Work)"
+msgstr ""
+
+msgid "Show in the Files sidebar"
+msgstr ""
+
+msgid "Choose the synchronization folder"
+msgstr ""
+
+msgid "You can close this window: the synchronization can continue in the background."
+msgstr ""
+
+msgid "Show details"
+msgstr ""
+
+msgid "Completed"
+msgstr ""
+
+msgid "All set"
+msgstr ""
+
+msgid "Synchronization failed"
+msgstr ""
+
+msgid "First synchronization in progress"
+msgstr ""
+
+msgid "Do you want the synchronization to continue in the background, or would you rather stop it and cancel this account setup?"
+msgstr ""
+
+msgid "Continue in background"
+msgstr ""
+
+msgid "rclone not found"
+msgstr ""
+
+msgid "GDrive Sync uses rclone as its synchronization engine.\nInstall the “rclone” package and reopen this assistant."
+msgstr ""
+
+msgid "Unknown error"
+msgstr ""
+
+msgid "the remote does not respond after configuration"
+msgstr ""
+
+msgid "Timed out: authorization not completed."
+msgstr ""
+
+msgid "Error: {message}"
+msgstr ""
+
+msgid "{count} selected: {folders}"
+msgstr ""
+
+msgid "The folder {folder} is synchronized with Google Drive."
+msgstr ""
+
+msgid "authorization cancelled"
+msgstr ""
+
+msgid "Transferring… {percent}%"
+msgstr ""
+
+msgid "rclone {major}.{minor} detected: sync works but is more robust with rclone ≥ 1.66 (rclone.org)"
+msgstr ""
+
+msgid "{n} file modified both locally and on Drive needs a decision."
+msgid_plural "{n} files modified both locally and on Drive need a decision."
+msgstr[0] ""
+msgstr[1] ""
+
+msgid "{n} conflict"
+msgid_plural "{n} conflicts"
+msgstr[0] ""
+msgstr[1] ""
+

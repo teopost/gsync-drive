@@ -1,0 +1,71 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<component type="desktop-application">
+  <id>io.github.teopost.GDriveSync</id>
+  <metadata_license>CC0-1.0</metadata_license>
+  <project_license>GPL-3.0-or-later</project_license>
+  <name>GDrive Sync</name>
+  <summary>Bidirectional Google Drive synchronization for GNOME</summary>
+  <summary xml:lang="it">Sincronizzazione bidirezionale con Google Drive per GNOME</summary>
+  <summary xml:lang="fr">Synchronisation bidirectionnelle avec Google Drive pour GNOME</summary>
+  <description>
+    <p>
+      GDrive Sync keeps a local folder synchronized with your Google Drive.
+      Files live on your disk, so every application can use them; a background
+      service propagates changes in both directions using rclone.
+    </p>
+    <p xml:lang="it">
+      GDrive Sync mantiene una cartella locale sincronizzata con Google Drive.
+      I file restano sul disco, utilizzabili da qualsiasi applicazione; un
+      servizio in background propaga le modifiche in entrambe le direzioni
+      tramite rclone.
+    </p>
+    <p xml:lang="fr">
+      GDrive Sync maintient un dossier local synchronisé avec Google Drive.
+      Les fichiers restent sur le disque, utilisables par toute application ;
+      un service en arrière-plan propage les modifications dans les deux sens
+      via rclone.
+    </p>
+  </description>
+  <launchable type="desktop-id">io.github.teopost.GDriveSync.desktop</launchable>
+  <url type="homepage">https://github.com/teopost/gsync-drive</url>
+  <developer id="io.github.teopost">
+    <name>Stefano Teodorani</name>
+  </developer>
+  <content_rating type="oars-1.1"/>
+  <releases>
+    <release version="0.4.1" date="2026-07-05">
+      <description>
+        <p>Fix the first synchronization of a new account failing when
+        bisync state from a removed account or a previous installation was
+        still on disk.</p>
+      </description>
+    </release>
+    <release version="0.4.0" date="2026-07-05">
+      <description>
+        <p>Setup wizard reworked: the first page only connects the Google
+        account; a new page shows the Drive folders as a checkbox tree with
+        per-folder sizes, so several folders can be selected for
+        synchronization. The interface is now translated (English, French,
+        Italian) following the system language.</p>
+      </description>
+    </release>
+    <release version="0.3.0" date="2026-07-04">
+      <description>
+        <p>Multiple Google accounts; the first sync runs in the background
+        service and closing the setup window offers to continue it in the
+        background.</p>
+      </description>
+    </release>
+    <release version="0.2.0" date="2026-07-04">
+      <description>
+        <p>Initial sync progress bar with on-demand details; pick the Drive
+        folder to synchronize by browsing it.</p>
+      </description>
+    </release>
+    <release version="0.1.0" date="2026-07-04">
+      <description>
+        <p>Initial release.</p>
+      </description>
+    </release>
+  </releases>
+</component>

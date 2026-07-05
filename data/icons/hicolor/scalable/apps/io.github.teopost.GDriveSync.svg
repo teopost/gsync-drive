@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg width="128" height="128" viewBox="0 0 128 128" xmlns="http://www.w3.org/2000/svg">
+  <defs>
+    <linearGradient id="folder" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0" stop-color="#62a0ea"/>
+      <stop offset="1" stop-color="#3584e4"/>
+    </linearGradient>
+  </defs>
+  <!-- folder body -->
+  <path d="M16 34 c0-4.4 3.6-8 8-8 h26 l10 10 h44 c4.4 0 8 3.6 8 8 v52 c0 4.4-3.6 8-8 8 H24 c-4.4 0-8-3.6-8-8 z"
+        fill="url(#folder)"/>
+  <path d="M16 44 h96 v6 H16 z" fill="#1a5fb4" opacity="0.35"/>
+  <!-- sync arrows -->
+  <g transform="translate(64 76)">
+    <circle r="26" fill="#ffffff" opacity="0.95"/>
+    <g fill="none" stroke="#26a269" stroke-width="7" stroke-linecap="round">
+      <path d="M -12 -6 a 15 15 0 0 1 24 -3"/>
+      <path d="M 12 6 a 15 15 0 0 1 -24 3"/>
+    </g>
+    <g fill="#26a269">
+      <path d="M 12 -14 l 2 11 -11 -2 z"/>
+      <path d="M -12 14 l -2 -11 11 2 z"/>
+    </g>
+  </g>
+</svg>

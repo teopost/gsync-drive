@@ -1,0 +1,94 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<schemalist>
+  <schema id="io.github.teopost.GDriveSync" path="/io/github/teopost/GDriveSync/">
+    <key name="accounts" type="as">
+      <default>[]</default>
+      <summary>Configured account ids</summary>
+    </key>
+    <!-- The keys below are the v0.2 single-account configuration, kept for migration. -->
+    <key name="setup-done" type="b">
+      <default>false</default>
+      <summary>Initial setup completed</summary>
+    </key>
+    <key name="local-dir" type="s">
+      <default>""</default>
+      <summary>Local sync folder (empty = ~/GoogleDrive)</summary>
+    </key>
+    <key name="sync-interval" type="i">
+      <range min="60" max="86400"/>
+      <default>300</default>
+      <summary>Periodic sync interval in seconds</summary>
+    </key>
+    <key name="bandwidth-limit" type="s">
+      <default>""</default>
+      <summary>rclone --bwlimit value (empty = unlimited)</summary>
+    </key>
+    <key name="max-delete" type="i">
+      <range min="1" max="100"/>
+      <default>25</default>
+      <summary>Abort a sync that would delete more than this percentage of files</summary>
+    </key>
+    <key name="dry-run" type="b">
+      <default>false</default>
+      <summary>Append --dry-run to every sync (development)</summary>
+    </key>
+    <key name="root-folder-id" type="s">
+      <default>""</default>
+      <summary>Google Drive root folder ID (empty = whole Drive)</summary>
+    </key>
+    <key name="sidebar-bookmark" type="b">
+      <default>true</default>
+      <summary>Show the sync folder in the Files sidebar</summary>
+    </key>
+    <key name="remote" type="s">
+      <default>"gdrive-sync:"</default>
+      <summary>Sync target (hidden; overridable for testing)</summary>
+    </key>
+  </schema>
+
+  <!-- Relocatable: one instance per account at /io/github/teopost/GDriveSync/accounts/<id>/ -->
+  <schema id="io.github.teopost.GDriveSync.Account">
+    <key name="display-name" type="s">
+      <default>""</default>
+      <summary>Account name shown in the UI</summary>
+    </key>
+    <key name="local-dir" type="s">
+      <default>""</default>
+      <summary>Local sync folder (empty = ~/GoogleDrive)</summary>
+    </key>
+    <key name="sync-interval" type="i">
+      <range min="60" max="86400"/>
+      <default>300</default>
+      <summary>Periodic sync interval in seconds</summary>
+    </key>
+    <key name="bandwidth-limit" type="s">
+      <default>""</default>
+      <summary>rclone --bwlimit value (empty = unlimited)</summary>
+    </key>
+    <key name="max-delete" type="i">
+      <range min="1" max="100"/>
+      <default>25</default>
+      <summary>Abort a sync that would delete more than this percentage of files</summary>
+    </key>
+    <key name="dry-run" type="b">
+      <default>false</default>
+      <summary>Append --dry-run to every sync (development)</summary>
+    </key>
+    <key name="root-folder-id" type="s">
+      <default>""</default>
+      <summary>Google Drive root folder ID (empty = whole Drive)</summary>
+    </key>
+    <key name="sidebar-bookmark" type="b">
+      <default>true</default>
+      <summary>Show the sync folder in the Files sidebar</summary>
+    </key>
+    <key name="remote" type="s">
+      <default>""</default>
+      <summary>Sync target (empty = gdrive-sync-&lt;id&gt;:)</summary>
+    </key>
+    <key name="sync-folders" type="as">
+      <default>[]</default>
+      <summary>Drive folders to synchronize, relative to the Drive root (empty = whole Drive)</summary>
+    </key>
+  </schema>
+</schemalist>
