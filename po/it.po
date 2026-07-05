@@ -390,3 +390,30 @@ msgid_plural "{n} conflicts"
 msgstr[0] "{n} conflitto"
 msgstr[1] "{n} conflitti"
 
+msgid "Service not available"
+msgstr "Servizio non disponibile"
+
+msgid "Apply"
+msgstr "Applica"
+
+msgid "Synchronized folders"
+msgstr "Cartelle sincronizzate"
+
+msgid "Edit…"
+msgstr "Modifica…"
+
+msgid "With no selection, the whole Drive is synchronized."
+msgstr "Senza selezione viene sincronizzato tutto il Drive."
+
+msgid "Apply the new folder selection?"
+msgstr "Applicare la nuova selezione di cartelle?"
+
+msgid "The synchronization will be realigned now (resync). Folders removed from the selection stay on this computer but are no longer synchronized."
+msgstr "La sincronizzazione verrà riallineata adesso (resync). Le cartelle rimosse dalla selezione restano su questo computer ma non vengono più sincronizzate."
+
+msgid "Folder selection updated; realigning…"
+msgstr "Selezione delle cartelle aggiornata; riallineamento in corso…"
+
+msgid "Realign not started: {message}"
+msgstr "Riallineamento non avviato: {message}"
+

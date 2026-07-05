@@ -33,6 +33,13 @@
   </developer>
   <content_rating type="oars-1.1"/>
   <releases>
+    <release version="0.4.2" date="2026-07-05">
+      <description>
+        <p>The Drive folder selection can now be changed after setup from
+        the account preferences; applying a change realigns the
+        synchronization automatically.</p>
+      </description>
+    </release>
     <release version="0.4.1" date="2026-07-05">
       <description>
         <p>Fix the first synchronization of a new account failing when

@@ -13,6 +13,7 @@ from ..config import AccountConfig, read_user_filters, write_filters
 from ..i18n import _
 from . import bookmarks
 from .daemon_proxy import DaemonProxy
+from .drive_tree import DriveFolderTree
 
 log = logging.getLogger(__name__)
 
@@ -70,6 +71,17 @@ class PreferencesDialog(Adw.PreferencesDialog):
         self.bwlimit_row.set_text(account.bandwidth_limit)
         self.bwlimit_row.connect("changed", self._on_bwlimit_changed)
 
+        # ----------------------------------------------------- drive folders
+        folders_group = Adw.PreferencesGroup(title=_("Drive folders"))
+        page.add(folders_group)
+
+        self.folders_row = Adw.ActionRow(title=_("Synchronized folders"))
+        edit_btn = Gtk.Button(label=_("Edit…"), valign=Gtk.Align.CENTER)
+        edit_btn.connect("clicked", self._on_edit_folders)
+        self.folders_row.add_suffix(edit_btn)
+        folders_group.add(self.folders_row)
+        self._update_folders_subtitle()
+
         # ------------------------------------------------------- exclusions
         self.excl_group = Adw.PreferencesGroup(
             title=_("Exclusions"),
@@ -117,6 +129,82 @@ class PreferencesDialog(Adw.PreferencesDialog):
             self.account._set("bandwidth-limit", text)
         else:
             row.add_css_class("error")
+
+    # --------------------------------------------------------- drive folders
+
+    def _update_folders_subtitle(self) -> None:
+        sel = self.account.sync_folders
+        if not sel:
+            self.folders_row.set_subtitle(_("Whole Drive"))
+        else:
+            shown = ", ".join(sel[:3]) + ("…" if len(sel) > 3 else "")
+            self.folders_row.set_subtitle(
+                _("{count} selected: {folders}").format(count=len(sel), folders=shown))
+
+    def _on_edit_folders(self, *_args) -> None:
+        dialog = Adw.Dialog(title=_("Folders to synchronize"),
+                            content_width=520, content_height=560)
+        tree = DriveFolderTree(remote=self.account.remote,
+                               initial_selection=self.account.sync_folders)
+
+        header = Adw.HeaderBar()
+        apply_btn = Gtk.Button(label=_("Apply"))
+        apply_btn.add_css_class("suggested-action")
+        apply_btn.connect("clicked", lambda *_a: self._on_folders_chosen(dialog, tree))
+        header.pack_end(apply_btn)
+
+        hint = Gtk.Label(
+            label=_("With no selection, the whole Drive is synchronized."),
+            wrap=True)
+        hint.add_css_class("dim-label")
+
+        box = Gtk.Box(orientation=Gtk.Orientation.VERTICAL, spacing=8,
+                      margin_start=12, margin_end=12, margin_bottom=12)
+        box.append(tree)
+        box.append(hint)
+        tb = Adw.ToolbarView(content=box)
+        tb.add_top_bar(header)
+        dialog.set_child(tb)
+
+        tree.load()
+        dialog.present(self)
+
+    def _on_folders_chosen(self, dialog: Adw.Dialog, tree: DriveFolderTree) -> None:
+        new = tree.selected_paths()
+        if new == self.account.sync_folders:
+            dialog.close()
+            return
+
+        confirm = Adw.AlertDialog(
+            heading=_("Apply the new folder selection?"),
+            body=_("The synchronization will be realigned now (resync). "
+                   "Folders removed from the selection stay on this computer "
+                   "but are no longer synchronized."),
+        )
+        confirm.add_response("cancel", _("Cancel"))
+        confirm.add_response("apply", _("Apply"))
+        confirm.set_response_appearance("apply", Adw.ResponseAppearance.SUGGESTED)
+        confirm.set_default_response("apply")
+
+        def on_response(_d, response: str) -> None:
+            if response != "apply":
+                return
+            self.account.sync_folders = new
+            # Rewriting the filters preserves the user exclusion patterns;
+            # rclone then requires --resync, which we request right away.
+            write_filters(read_user_filters(self.account.filters_file),
+                          self.account.filters_file,
+                          include_dirs=self.account.sync_folders)
+            self._update_folders_subtitle()
+            dialog.close()
+            self.add_toast(Adw.Toast(title=_("Folder selection updated; realigning…")))
+            self.proxy.resync(
+                self.account.id,
+                on_error=lambda m: self.add_toast(Adw.Toast(
+                    title=_("Realign not started: {message}").format(message=m))))
+
+        confirm.connect("response", on_response)
+        confirm.present(dialog)
 
     # ----------------------------------------------------------- exclusions
 

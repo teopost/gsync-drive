@@ -167,9 +167,10 @@ class Engine:
         self._start_run(resync=self.last_sync_time == 0)
 
     def request_resync(self) -> None:
-        """User-approved recovery resync. Only valid in NEEDS_RESYNC."""
-        if self.state is not State.NEEDS_RESYNC:
-            raise RuntimeError(f"Resync only allowed in NEEDS_RESYNC state, not {self.state.value}")
+        """User-approved resync: recovery, or realign after the folder
+        selection / filters changed. Never triggered automatically."""
+        if self.state not in (State.NEEDS_RESYNC, State.IDLE, State.ERROR):
+            raise RuntimeError(f"Resync not allowed in state {self.state.value}")
         self._start_run(resync=True)
 
     def cancel_sync(self) -> None:

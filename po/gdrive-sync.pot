@@ -390,3 +390,30 @@ msgid_plural "{n} conflicts"
 msgstr[0] ""
 msgstr[1] ""
 
+msgid "Service not available"
+msgstr ""
+
+msgid "Apply"
+msgstr ""
+
+msgid "Synchronized folders"
+msgstr ""
+
+msgid "Edit…"
+msgstr ""
+
+msgid "With no selection, the whole Drive is synchronized."
+msgstr ""
+
+msgid "Apply the new folder selection?"
+msgstr ""
+
+msgid "The synchronization will be realigned now (resync). Folders removed from the selection stay on this computer but are no longer synchronized."
+msgstr ""
+
+msgid "Folder selection updated; realigning…"
+msgstr ""
+
+msgid "Realign not started: {message}"
+msgstr ""
+

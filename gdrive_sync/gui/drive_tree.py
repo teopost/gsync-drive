@@ -64,11 +64,16 @@ class DriveFolderTree(Gtk.Box):
     on_selection_changed() is invoked after every check/uncheck.
     """
 
-    def __init__(self, remote: str, on_selection_changed=None) -> None:
+    def __init__(self, remote: str, on_selection_changed=None,
+                 initial_selection: list[str] | None = None) -> None:
         super().__init__(orientation=Gtk.Orientation.VERTICAL)
         self.remote = remote
         self.on_selection_changed = on_selection_changed
         self._size_sem = threading.Semaphore(_SIZE_WORKERS)
+        # Paths selected before the tree is (fully) loaded. Consumed when the
+        # matching item materializes; the rest still counts as selected, so a
+        # nested saved selection survives even if never expanded.
+        self._pending = set(minimal_paths(initial_selection or []))
 
         self._root_store = Gio.ListStore(item_type=FolderItem)
         self._tree = Gtk.TreeListModel.new(
@@ -127,9 +132,16 @@ class DriveFolderTree(Gtk.Box):
             return GLib.SOURCE_REMOVE
         self._root_store.remove_all()
         for f in folders:
-            self._root_store.append(FolderItem(f.name, f.name, None))
+            item = FolderItem(f.name, f.name, None)
+            self._adopt_pending(item)
+            self._root_store.append(item)
         self._stack.set_visible_child_name("list" if folders else "empty")
         return GLib.SOURCE_REMOVE
+
+    def _adopt_pending(self, item: FolderItem) -> None:
+        if item.path in self._pending:
+            self._pending.discard(item.path)
+            item.selected = True
 
     def _create_children(self, item: FolderItem) -> Gio.ListStore:
         """TreeListModel child factory: fill the store asynchronously."""
@@ -148,6 +160,7 @@ class DriveFolderTree(Gtk.Box):
             for f in folders:
                 child = FolderItem(f.name, f"{item.path}/{f.name}", item)
                 child.inherited = item.inherited or item.selected
+                self._adopt_pending(child)
                 store.append(child)
             return GLib.SOURCE_REMOVE
 
@@ -261,4 +274,4 @@ class DriveFolderTree(Gtk.Box):
                     walk(item.children_store)
 
         walk(self._root_store)
-        return minimal_paths(paths)
+        return minimal_paths(paths + list(self._pending))

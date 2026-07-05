@@ -7,6 +7,7 @@ import logging
 from gi.repository import Gio, GLib, GObject
 
 from .. import const
+from ..i18n import _
 
 log = logging.getLogger(__name__)
 
@@ -75,7 +76,7 @@ class DaemonProxy(GObject.Object):
               on_done=None, on_error=None) -> None:
         if self._proxy is None:
             if on_error:
-                on_error("Servizio non disponibile")
+                on_error(_("Service not available"))
             return
 
         def done(proxy, result):

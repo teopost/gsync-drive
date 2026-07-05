@@ -129,9 +129,19 @@ def test_needs_resync_flow(engine):
     wait_for_state(engine, State.IDLE)
 
 
-def test_resync_rejected_when_not_needed(engine):
+def test_resync_allowed_from_idle(engine):
+    # Needed when the Drive folder selection changes: filters change and
+    # bisync requires a user-approved --resync to realign.
     engine.start()
     wait_for_state(engine, State.IDLE)
+    engine.request_resync()
+    wait_for_state(engine, State.IDLE)
+
+
+def test_resync_rejected_while_paused(engine):
+    engine.start()
+    wait_for_state(engine, State.IDLE)
+    engine.pause()
     with pytest.raises(RuntimeError):
         engine.request_resync()
 

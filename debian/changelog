@@ -1,3 +1,15 @@
+gdrive-sync (0.4.2) unstable; urgency=medium
+
+  * The Drive folder selection can now be changed after setup: the account
+    preferences gain a "Synchronized folders" editor with the same checkbox
+    tree (and folder sizes) as the wizard, pre-filled with the current
+    selection. Applying a change rewrites the rclone filters and starts the
+    required realignment (resync) automatically.
+  * The daemon now accepts a user-requested resync from the idle and error
+    states, not only from needs-resync.
+
+ -- Stefano Teodorani <stefano.teodorani@horsa.it>  Sun, 05 Jul 2026 13:00:00 +0200
+
 gdrive-sync (0.4.1) unstable; urgency=medium
 
   * Fix: the first synchronization of a new account failed with "filters
