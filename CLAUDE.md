@@ -55,6 +55,10 @@ GSETTINGS_SCHEMA_DIR=/tmp/gds-schemas python3 -m gdrive_sync.daemon.main
   fails. The wizard calls `account.purge_state()` before publishing;
   `Config.remove_account()` purges too. Keep it that way.
 - The daemon decides `--resync` from `last_sync_time == 0` (status file).
+- **Never run a second bisync in the daemon's workdir** (not even
+  `--dry-run`): its lock makes the real sync/resync fail instantly. Any
+  GUI-side preview must use its own scratch workdir and be cancelled when
+  its dialog closes.
 
 ## i18n workflow
 
