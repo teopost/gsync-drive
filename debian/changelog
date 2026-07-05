@@ -1,3 +1,12 @@
+gdrive-sync (0.7.0) unstable; urgency=medium
+
+  * The local synchronization folder can now be moved/renamed from the
+    account preferences: the files are moved, the Files-sidebar bookmark
+    updated, the daemon's file watcher restarted, and the synchronization
+    realigned automatically. Nothing changes on Google Drive.
+
+ -- Stefano Teodorani <stefano.teodorani@horsa.it>  Sun, 05 Jul 2026 19:00:00 +0200
+
 gdrive-sync (0.6.1) unstable; urgency=medium
 
   * Fix a serious state-loss bug: if the app started while the GSettings

@@ -459,3 +459,30 @@ msgstr "Le schéma des paramètres de l'application n'est pas installé (cela pe
 msgid "Close"
 msgstr "Fermer"
 
+msgid "Move"
+msgstr "Déplacer"
+
+msgid "Move…"
+msgstr "Déplacer…"
+
+msgid "Choose the new synchronization folder"
+msgstr "Choisissez le nouveau dossier de synchronisation"
+
+msgid "Move the synchronized folder?"
+msgstr "Déplacer le dossier synchronisé ?"
+
+msgid "Folder moved; realigning…"
+msgstr "Dossier déplacé ; réalignement en cours…"
+
+msgid "The destination cannot be inside the current folder"
+msgstr "La destination ne peut pas être à l'intérieur du dossier actuel"
+
+msgid "The destination folder must be empty"
+msgstr "Le dossier de destination doit être vide"
+
+msgid "The files will be moved from {current} to {target} and the synchronization realigned. This does not change anything on Google Drive."
+msgstr "Les fichiers seront déplacés de {current} vers {target} et la synchronisation réalignée. Rien ne change sur Google Drive."
+
+msgid "Cannot move the folder: {message}"
+msgstr "Impossible de déplacer le dossier : {message}"
+

@@ -459,3 +459,30 @@ msgstr ""
 msgid "Close"
 msgstr ""
 
+msgid "Move"
+msgstr ""
+
+msgid "Move…"
+msgstr ""
+
+msgid "Choose the new synchronization folder"
+msgstr ""
+
+msgid "Move the synchronized folder?"
+msgstr ""
+
+msgid "Folder moved; realigning…"
+msgstr ""
+
+msgid "The destination cannot be inside the current folder"
+msgstr ""
+
+msgid "The destination folder must be empty"
+msgstr ""
+
+msgid "The files will be moved from {current} to {target} and the synchronization realigned. This does not change anything on Google Drive."
+msgstr ""
+
+msgid "Cannot move the folder: {message}"
+msgstr ""
+

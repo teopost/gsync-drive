@@ -459,3 +459,30 @@ msgstr "Lo schema delle impostazioni dell'applicazione non è installato (può c
 msgid "Close"
 msgstr "Chiudi"
 
+msgid "Move"
+msgstr "Sposta"
+
+msgid "Move…"
+msgstr "Sposta…"
+
+msgid "Choose the new synchronization folder"
+msgstr "Scegli la nuova cartella di sincronizzazione"
+
+msgid "Move the synchronized folder?"
+msgstr "Spostare la cartella sincronizzata?"
+
+msgid "Folder moved; realigning…"
+msgstr "Cartella spostata; riallineamento in corso…"
+
+msgid "The destination cannot be inside the current folder"
+msgstr "La destinazione non può essere dentro la cartella attuale"
+
+msgid "The destination folder must be empty"
+msgstr "La cartella di destinazione deve essere vuota"
+
+msgid "The files will be moved from {current} to {target} and the synchronization realigned. This does not change anything on Google Drive."
+msgstr "I file verranno spostati da {current} a {target} e la sincronizzazione riallineata. Su Google Drive non cambia nulla."
+
+msgid "Cannot move the folder: {message}"
+msgstr "Impossibile spostare la cartella: {message}"
+

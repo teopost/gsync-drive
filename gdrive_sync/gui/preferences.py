@@ -4,8 +4,11 @@ from __future__ import annotations
 
 import logging
 import re
+import shutil
+import threading
+from pathlib import Path
 
-from gi.repository import Adw, Gio, Gtk
+from gi.repository import Adw, Gio, GLib, Gtk
 
 from ..config import AccountConfig, read_user_filters, write_filters
 from ..i18n import _
@@ -37,6 +40,13 @@ class PreferencesDialog(Adw.PreferencesDialog):
             "changed",
             lambda row: setattr(account, "display_name", row.get_text().strip()))
         account_group.add(self.name_row)
+
+        self.local_row = Adw.ActionRow(title=_("Local folder"),
+                                       subtitle=str(account.local_dir))
+        move_btn = Gtk.Button(label=_("Move…"), valign=Gtk.Align.CENTER)
+        move_btn.connect("clicked", self._on_move_folder)
+        self.local_row.add_suffix(move_btn)
+        account_group.add(self.local_row)
 
         # ------------------------------------------------------------- sync
         sync_group = Adw.PreferencesGroup(title=_("Synchronization"))
@@ -120,6 +130,86 @@ class PreferencesDialog(Adw.PreferencesDialog):
             self.account._set("bandwidth-limit", text)
         else:
             row.add_css_class("error")
+
+    # ---------------------------------------------------------- local folder
+
+    def _on_move_folder(self, *_args) -> None:
+        dialog = Gtk.FileDialog(title=_("Choose the new synchronization folder"))
+
+        def picked(d, result):
+            try:
+                f = d.select_folder_finish(result)
+            except GLib.Error:
+                return
+            self._confirm_move(Path(f.get_path()))
+
+        dialog.select_folder(self.get_root(), None, picked)
+
+    def _confirm_move(self, target: Path) -> None:
+        current = self.account.local_dir
+        if target == current:
+            return
+        if str(target).startswith(str(current) + "/"):
+            self.add_toast(Adw.Toast(
+                title=_("The destination cannot be inside the current folder")))
+            return
+        if target.exists() and any(target.iterdir()):
+            self.add_toast(Adw.Toast(title=_("The destination folder must be empty")))
+            return
+
+        confirm = Adw.AlertDialog(
+            heading=_("Move the synchronized folder?"),
+            body=_("The files will be moved from {current} to {target} and "
+                   "the synchronization realigned. This does not change "
+                   "anything on Google Drive.").format(current=current, target=target),
+        )
+        confirm.add_response("cancel", _("Cancel"))
+        confirm.add_response("move", _("Move"))
+        confirm.set_response_appearance("move", Adw.ResponseAppearance.SUGGESTED)
+        confirm.set_default_response("move")
+        confirm.connect(
+            "response",
+            lambda _d, r: r == "move" and self._apply_move(current, target))
+        confirm.present(self)
+
+    def _apply_move(self, current: Path, target: Path) -> None:
+        # Stop any run first: bisync must not be walking the tree mid-move.
+        self.proxy.cancel_sync(self.account.id)
+
+        def worker() -> None:
+            try:
+                if current.is_dir():
+                    if target.exists():
+                        target.rmdir()  # verified empty in _confirm_move
+                    shutil.move(str(current), str(target))
+                else:
+                    # Folder already renamed by hand: only adopt the new path.
+                    target.mkdir(parents=True, exist_ok=True)
+                GLib.idle_add(self._on_move_done, current, target, None)
+            except OSError as e:
+                GLib.idle_add(self._on_move_done, current, target, str(e))
+
+        threading.Thread(target=worker, daemon=True).start()
+
+    def _on_move_done(self, current: Path, target: Path, error: str | None) -> bool:
+        if error:
+            self.add_toast(Adw.Toast(
+                title=_("Cannot move the folder: {message}").format(message=error)))
+            return GLib.SOURCE_REMOVE
+        self.account.local_dir = target
+        bookmarks.remove_bookmark(current)
+        if self.account.sidebar_bookmark:
+            bookmarks.add_bookmark(target)
+            bookmarks.set_folder_icon(target)
+        self.local_row.set_subtitle(str(target))
+        self.add_toast(Adw.Toast(title=_("Folder moved; realigning…")))
+        # The bisync listings are keyed to the old path: realign right away.
+        # The daemon restarts the file watcher on the local-dir change itself.
+        self.proxy.resync(
+            self.account.id,
+            on_error=lambda m: self.add_toast(Adw.Toast(
+                title=_("Realign not started: {message}").format(message=m))))
+        return GLib.SOURCE_REMOVE
 
     # --------------------------------------------------------- drive folders
 
