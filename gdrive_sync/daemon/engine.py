@@ -58,6 +58,7 @@ class Engine:
         self._retry_index = 0
         self._lock_retried = False
         self._empty_listing_retried = False
+        self._pending_resync = False
         self._timer_id = 0
         self._state_before_pause: State | None = None
         self._current_run: rclone.BisyncRun | None = None
@@ -174,10 +175,28 @@ class Engine:
 
     def request_resync(self) -> None:
         """User-approved resync: recovery, or realign after the folder
-        selection / filters changed. Never triggered automatically."""
+        selection / filters / local dir changed. Never triggered
+        automatically. If a run is in progress it is cancelled and the
+        resync starts as soon as the cancellation lands."""
+        if self.state in (State.SYNCING, State.RESYNCING):
+            self._pending_resync = True
+            if self._current_run is not None:
+                self._current_run.cancel()
+            return
         if self.state not in (State.NEEDS_RESYNC, State.IDLE, State.ERROR):
             raise RuntimeError(f"Resync not allowed in state {self.state.value}")
         self._start_run(resync=True)
+
+    def set_local_dir(self, path: str) -> None:
+        """Adopt a new local folder (already moved by the caller) and realign.
+
+        Runs daemon-side so the settings write is immediately visible to this
+        process — a GUI writing the key and then calling Resync races dconf
+        propagation and can realign the old path.
+        """
+        self.account.local_dir = path
+        log.info("[%s] local dir set to %s; realigning", self.account.id, path)
+        self.request_resync()
 
     def cancel_sync(self) -> None:
         """Kill the run in progress (no error state, no retry)."""
@@ -253,6 +272,10 @@ class Engine:
             self.watcher.resume()
 
         if result.outcome is rclone.Outcome.CANCELLED:
+            if self._pending_resync:
+                self._pending_resync = False
+                self._start_run(resync=True)
+                return GLib.SOURCE_REMOVE
             self._set_state(State.IDLE)
             self._arm_timer()
             return GLib.SOURCE_REMOVE

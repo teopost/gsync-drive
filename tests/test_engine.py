@@ -220,3 +220,40 @@ def test_empty_listing_auto_resync_does_not_loop(engine):
     engine._queue.append(SyncResult(Outcome.NEEDS_RESYNC, 7, stderr=err))
     engine.start()
     wait_for_state(engine, State.NEEDS_RESYNC)
+
+
+def test_resync_during_sync_cancels_then_resyncs(engine):
+    """A resync requested mid-run (folder moved / selection changed) must
+    cancel the run and start right after, not raise."""
+    states = []
+    engine.on_state_changed = states.append
+    engine.start()
+    wait_for_state(engine, State.IDLE)
+
+    class StubRun:
+        cancelled = False
+        def cancel(self):
+            self.cancelled = True
+
+    run = StubRun()
+    engine._current_run = run
+    engine._set_state(State.SYNCING)
+    engine.request_resync()                      # must not raise
+    assert run.cancelled and engine._pending_resync
+    engine._current_run = None
+    engine._on_run_done(SyncResult(Outcome.CANCELLED, -9), False, False)
+    wait_for_state(engine, State.IDLE)
+    assert State.RESYNCING in states
+
+
+def test_set_local_dir_realigns(engine, tmp_path):
+    states = []
+    engine.on_state_changed = states.append
+    engine.start()
+    wait_for_state(engine, State.IDLE)
+    new_dir = tmp_path / "renamed"
+    new_dir.mkdir()
+    engine.set_local_dir(str(new_dir))
+    wait_for_state(engine, State.IDLE)
+    assert State.RESYNCING in states
+    assert str(engine.account.local_dir) == str(new_dir)

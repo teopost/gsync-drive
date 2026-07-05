@@ -1,3 +1,15 @@
+gdrive-sync (0.7.1) unstable; urgency=medium
+
+  * Fix: after moving the local folder from the preferences, the automatic
+    realignment could run against the old path (the settings write raced
+    the D-Bus call across processes), leaving the account demanding a
+    repair at the next sync. The daemon now adopts the new path itself via
+    a new SetLocalDir D-Bus method.
+  * A resync requested while a sync is running is now queued (the run is
+    cancelled and the resync starts right after) instead of being refused.
+
+ -- Stefano Teodorani <stefano.teodorani@horsa.it>  Sun, 05 Jul 2026 20:00:00 +0200
+
 gdrive-sync (0.7.0) unstable; urgency=medium
 
   * The local synchronization folder can now be moved/renamed from the

@@ -196,19 +196,22 @@ class PreferencesDialog(Adw.PreferencesDialog):
             self.add_toast(Adw.Toast(
                 title=_("Cannot move the folder: {message}").format(message=error)))
             return GLib.SOURCE_REMOVE
-        self.account.local_dir = target
         bookmarks.remove_bookmark(current)
         if self.account.sidebar_bookmark:
             bookmarks.add_bookmark(target)
             bookmarks.set_folder_icon(target)
         self.local_row.set_subtitle(str(target))
         self.add_toast(Adw.Toast(title=_("Folder moved; realigning…")))
-        # The bisync listings are keyed to the old path: realign right away.
-        # The daemon restarts the file watcher on the local-dir change itself.
-        self.proxy.resync(
-            self.account.id,
-            on_error=lambda m: self.add_toast(Adw.Toast(
-                title=_("Realign not started: {message}").format(message=m))))
+        # The daemon adopts the new path itself: writing the GSettings key
+        # here and then calling Resync would race dconf propagation, and the
+        # realign could run against the old path.
+        if self.proxy.available:
+            self.proxy.set_local_dir(
+                self.account.id, str(target),
+                on_error=lambda m: self.add_toast(Adw.Toast(
+                    title=_("Realign not started: {message}").format(message=m))))
+        else:
+            self.account.local_dir = target
         return GLib.SOURCE_REMOVE
 
     # --------------------------------------------------------- drive folders

@@ -33,6 +33,10 @@ INTERFACE_XML = f"""
     <method name="Resync">
       <arg name="id" type="s" direction="in"/>
     </method>
+    <method name="SetLocalDir">
+      <arg name="id" type="s" direction="in"/>
+      <arg name="path" type="s" direction="in"/>
+    </method>
     <method name="CancelSync">
       <arg name="id" type="s" direction="in"/>
     </method>
@@ -106,6 +110,10 @@ class DBusService:
                     "Resync": engine.request_resync,
                     "CancelSync": engine.cancel_sync,
                 }[method]()
+                invocation.return_value(None)
+            elif method == "SetLocalDir":
+                account_id, path = params.unpack()
+                self._engine(account_id).set_local_dir(path)
                 invocation.return_value(None)
             elif method == "GetRecentLog":
                 account_id, lines = params.unpack()

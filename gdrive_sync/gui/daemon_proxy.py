@@ -111,6 +111,9 @@ class DaemonProxy(GObject.Object):
     def resync(self, account_id: str, **kw) -> None:
         self._call("Resync", GLib.Variant("(s)", (account_id,)), **kw)
 
+    def set_local_dir(self, account_id: str, path: str, **kw) -> None:
+        self._call("SetLocalDir", GLib.Variant("(ss)", (account_id, path)), **kw)
+
     def cancel_sync(self, account_id: str, **kw) -> None:
         self._call("CancelSync", GLib.Variant("(s)", (account_id,)), **kw)
 

@@ -33,6 +33,13 @@
   </developer>
   <content_rating type="oars-1.1"/>
   <releases>
+    <release version="0.7.1" date="2026-07-05">
+      <description>
+        <p>Fix the automatic realignment after moving the local folder
+        sometimes running against the old path; resyncs requested during a
+        sync are now queued instead of refused.</p>
+      </description>
+    </release>
     <release version="0.7.0" date="2026-07-05">
       <description>
         <p>The local synchronization folder can be moved or renamed from
