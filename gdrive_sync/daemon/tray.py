@@ -128,11 +128,16 @@ _ID_ACCOUNT_BASE = 100  # + index: informative per-account rows
 # daemon is doing (sync spinner, pause, offline, warning).
 _STATE_ICONS = {
     "error": "dialog-warning-symbolic",
-    "syncing": "emblem-synchronizing-symbolic",
+    "syncing": f"{const.APP_ID}-syncing-0-symbolic",
     "paused": "media-playback-pause-symbolic",
     "offline": "network-offline-symbolic",
     "idle": f"{const.APP_ID}-symbolic",
 }
+
+# While syncing, the arrows spin: SNI has no animation support, so we cycle
+# through pre-rotated icon frames and emit NewIcon (the Syncthing approach).
+_SYNC_FRAMES = 6
+_FRAME_INTERVAL_MS = 350
 
 
 def aggregate_state(states: list[str]) -> str:
@@ -174,6 +179,8 @@ class TrayIcon:
         self._own_id = 0
         self._watch_id = 0
         self._enabled = False
+        self._frame = 0
+        self._anim_timer = 0
 
     # ------------------------------------------------------------- lifecycle
 
@@ -212,6 +219,7 @@ class TrayIcon:
         for reg in self._registrations:
             self.connection.unregister_object(reg)
         self._registrations = []
+        self._stop_animation()
         log.info("tray icon disabled")
 
     def _register_with_watcher(self) -> None:
@@ -235,6 +243,10 @@ class TrayIcon:
         """Recompute status/tooltip/menu after any account state change."""
         if not self._enabled:
             return
+        if self._aggregate() == "syncing":
+            self._start_animation()
+        else:
+            self._stop_animation()
         self._revision += 1
         self._emit(ITEM_PATH, "org.kde.StatusNotifierItem", "NewIcon", None)
         self._emit(ITEM_PATH, "org.kde.StatusNotifierItem", "NewStatus",
@@ -242,6 +254,23 @@ class TrayIcon:
         self._emit(ITEM_PATH, "org.kde.StatusNotifierItem", "NewToolTip", None)
         self._emit(MENU_PATH, "com.canonical.dbusmenu", "LayoutUpdated",
                    GLib.Variant("(ui)", (self._revision, 0)))
+
+    # ------------------------------------------------------------ animation
+
+    def _start_animation(self) -> None:
+        if not self._anim_timer:
+            self._anim_timer = GLib.timeout_add(_FRAME_INTERVAL_MS, self._on_frame)
+
+    def _stop_animation(self) -> None:
+        if self._anim_timer:
+            GLib.source_remove(self._anim_timer)
+            self._anim_timer = 0
+            self._frame = 0
+
+    def _on_frame(self) -> bool:
+        self._frame = (self._frame + 1) % _SYNC_FRAMES
+        self._emit(ITEM_PATH, "org.kde.StatusNotifierItem", "NewIcon", None)
+        return GLib.SOURCE_CONTINUE
 
     def _emit(self, path: str, iface: str, signal: str, params) -> None:
         try:
@@ -272,7 +301,11 @@ class TrayIcon:
         if name == "Status":
             return GLib.Variant("s", self._overall_status())
         if name == "IconName":
-            return GLib.Variant("s", _STATE_ICONS[self._aggregate()])
+            state = self._aggregate()
+            if state == "syncing":
+                return GLib.Variant(
+                    "s", f"{const.APP_ID}-syncing-{self._frame}-symbolic")
+            return GLib.Variant("s", _STATE_ICONS[state])
         if name == "AttentionIconName":
             return GLib.Variant("s", _STATE_ICONS["error"])
         if name == "ToolTip":

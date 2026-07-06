@@ -1,3 +1,11 @@
+gdrive-sync (0.8.0) unstable; urgency=medium
+
+  * The tray icon is animated while a synchronization is running: the
+    arrows spin (six pre-rotated symbolic frames cycled via the
+    StatusNotifierItem NewIcon signal).
+
+ -- Stefano Teodorani <stefano.teodorani@horsa.it>  Mon, 06 Jul 2026 22:00:00 +0200
+
 gdrive-sync (0.7.2) unstable; urgency=medium
 
   * Fix: transient network/DNS failures during a sync were classified as

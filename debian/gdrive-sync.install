@@ -4,5 +4,5 @@ data/io.github.teopost.GDriveSync.gschema.xml        usr/share/glib-2.0/schemas/
 data/io.github.teopost.GDriveSync.Daemon.service     usr/share/dbus-1/services/
 data/io.github.teopost.GDriveSync.metainfo.xml       usr/share/metainfo/
 data/icons/hicolor/scalable/apps/io.github.teopost.GDriveSync.svg          usr/share/icons/hicolor/scalable/apps/
-data/icons/hicolor/symbolic/apps/io.github.teopost.GDriveSync-symbolic.svg usr/share/icons/hicolor/symbolic/apps/
+data/icons/hicolor/symbolic/apps/*.svg usr/share/icons/hicolor/symbolic/apps/
 debian/locale/*  usr/share/locale/

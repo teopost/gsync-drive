@@ -86,8 +86,10 @@ install -Dm644 data/%{appid}.metainfo.xml \
     %{buildroot}%{_datadir}/metainfo/%{appid}.metainfo.xml
 install -Dm644 data/icons/hicolor/scalable/apps/%{appid}.svg \
     %{buildroot}%{_datadir}/icons/hicolor/scalable/apps/%{appid}.svg
-install -Dm644 data/icons/hicolor/symbolic/apps/%{appid}-symbolic.svg \
-    %{buildroot}%{_datadir}/icons/hicolor/symbolic/apps/%{appid}-symbolic.svg
+for icon in data/icons/hicolor/symbolic/apps/*.svg; do
+    install -Dm644 "$icon" \
+        "%{buildroot}%{_datadir}/icons/hicolor/symbolic/apps/$(basename "$icon")"
+done
 
 for mo in locale/*/LC_MESSAGES/gdrive-sync.mo; do
     lang=$(echo "$mo" | cut -d/ -f2)
@@ -117,7 +119,7 @@ update-desktop-database %{_datadir}/applications >/dev/null 2>&1 || :
 %{_prefix}/lib/systemd/user/gdrive-sync-daemon.service
 %{_datadir}/metainfo/%{appid}.metainfo.xml
 %{_datadir}/icons/hicolor/scalable/apps/%{appid}.svg
-%{_datadir}/icons/hicolor/symbolic/apps/%{appid}-symbolic.svg
+%{_datadir}/icons/hicolor/symbolic/apps/%{appid}*-symbolic.svg
 %{_datadir}/locale/*/LC_MESSAGES/gdrive-sync.mo
 
 %changelog

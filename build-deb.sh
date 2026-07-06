@@ -48,8 +48,10 @@ install -Dm644 data/io.github.teopost.GDriveSync.metainfo.xml \
     "$PKGDIR/usr/share/metainfo/io.github.teopost.GDriveSync.metainfo.xml"
 install -Dm644 data/icons/hicolor/scalable/apps/io.github.teopost.GDriveSync.svg \
     "$PKGDIR/usr/share/icons/hicolor/scalable/apps/io.github.teopost.GDriveSync.svg"
-install -Dm644 data/icons/hicolor/symbolic/apps/io.github.teopost.GDriveSync-symbolic.svg \
-    "$PKGDIR/usr/share/icons/hicolor/symbolic/apps/io.github.teopost.GDriveSync-symbolic.svg"
+for icon in data/icons/hicolor/symbolic/apps/*.svg; do
+    install -Dm644 "$icon" \
+        "$PKGDIR/usr/share/icons/hicolor/symbolic/apps/$(basename "$icon")"
+done
 
 # --- translations --------------------------------------------------------------
 for po in po/*.po; do
