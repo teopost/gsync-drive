@@ -33,6 +33,11 @@
   </developer>
   <content_rating type="oars-1.1"/>
   <releases>
+    <release version="0.8.1" date="2026-07-06">
+      <description>
+        <p>Smoother tray icon animation.</p>
+      </description>
+    </release>
     <release version="0.8.0" date="2026-07-06">
       <description>
         <p>The tray icon arrows spin while a synchronization is running.</p>

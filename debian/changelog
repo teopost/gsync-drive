@@ -1,3 +1,10 @@
+gdrive-sync (0.8.1) unstable; urgency=medium
+
+  * Smoother tray animation: 18 frames (10 degree steps) at 100 ms instead
+    of 6 frames at 350 ms.
+
+ -- Stefano Teodorani <stefano.teodorani@horsa.it>  Mon, 06 Jul 2026 22:30:00 +0200
+
 gdrive-sync (0.8.0) unstable; urgency=medium
 
   * The tray icon is animated while a synchronization is running: the

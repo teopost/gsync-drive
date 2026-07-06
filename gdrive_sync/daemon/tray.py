@@ -136,8 +136,8 @@ _STATE_ICONS = {
 
 # While syncing, the arrows spin: SNI has no animation support, so we cycle
 # through pre-rotated icon frames and emit NewIcon (the Syncthing approach).
-_SYNC_FRAMES = 6
-_FRAME_INTERVAL_MS = 350
+_SYNC_FRAMES = 18   # 10° steps; 180° covers a full cycle by symmetry
+_FRAME_INTERVAL_MS = 100
 
 
 def aggregate_state(states: list[str]) -> str:
