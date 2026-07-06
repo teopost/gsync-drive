@@ -1,3 +1,11 @@
+gdrive-sync (0.8.2) unstable; urgency=medium
+
+  * Revert the tray icon animation (0.8.0/0.8.1): back to the static
+    per-state icon of 0.7.2. The animation did not render smoothly enough
+    across shells to be worth it.
+
+ -- Stefano Teodorani <stefano.teodorani@horsa.it>  Mon, 06 Jul 2026 23:00:00 +0200
+
 gdrive-sync (0.8.1) unstable; urgency=medium
 
   * Smoother tray animation: 18 frames (10 degree steps) at 100 ms instead
