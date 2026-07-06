@@ -205,3 +205,38 @@ def test_bisync_run_cancel(tmp_path):
     run.cancel()
     result = run.wait(timeout=10)
     assert result.outcome is Outcome.CANCELLED
+
+
+# --------------------------------------------------------------------------- #
+# Classification: network failures during bisync (regression: a DNS outage
+# was classified as NEEDS_RESYNC because rclone prints "Bisync aborted" on
+# every critical error)
+# --------------------------------------------------------------------------- #
+
+def test_dns_failure_is_transient():
+    log_tail = (
+        'ERROR : critical error: couldn\'t fetch token: Post '
+        '"https://oauth2.googleapis.com/token": dial tcp: lookup '
+        'oauth2.googleapis.com on 127.0.0.53:53: server misbehaving\n'
+        'ERROR : Bisync aborted. Error is retryable without --resync '
+        'due to --resilient mode.\n'
+        'NOTICE: Failed to bisync: bisync aborted')
+    assert rclone.classify_result(7, "", log_tail) is Outcome.TRANSIENT
+
+
+def test_connection_reset_is_transient():
+    assert rclone.classify_result(
+        7, "", "dial tcp 142.250.0.1:443: connection refused\nBisync aborted"
+    ) is Outcome.TRANSIENT
+
+
+def test_filters_changed_still_needs_resync():
+    assert rclone.classify_result(
+        7, "", "filters file has changed (must run --resync)\nBisync aborted"
+    ) is Outcome.NEEDS_RESYNC
+
+
+def test_unknown_critical_abort_is_fatal_not_resync():
+    assert rclone.classify_result(
+        7, "", "some unexpected condition\nBisync aborted"
+    ) is Outcome.FATAL

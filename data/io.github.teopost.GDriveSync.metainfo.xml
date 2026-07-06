@@ -33,6 +33,12 @@
   </developer>
   <content_rating type="oars-1.1"/>
   <releases>
+    <release version="0.7.2" date="2026-07-06">
+      <description>
+        <p>Network and DNS failures during a sync are retried automatically
+        instead of asking for a repair.</p>
+      </description>
+    </release>
     <release version="0.7.1" date="2026-07-05">
       <description>
         <p>Fix the automatic realignment after moving the local folder

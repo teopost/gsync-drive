@@ -272,7 +272,14 @@ class SyncResult:
         return self.outcome is Outcome.SUCCESS
 
 
-_RESYNC_RE = re.compile(r"must run --resync|bisync aborted|cannot find prior|empty prior", re.I)
+# Markers that genuinely require --resync. NB: "Bisync aborted" alone is NOT
+# one — rclone prints it on every critical error, including plain network
+# failures ("Error is retryable without --resync due to --resilient mode").
+_RESYNC_RE = re.compile(r"must run --resync|cannot find prior|empty prior", re.I)
+_NETWORK_RE = re.compile(
+    r"dial tcp|no such host|server misbehaving|connection re(?:fused|set)|"
+    r"i/o timeout|TLS handshake|network is unreachable|temporary failure|"
+    r"couldn't fetch token|context deadline exceeded", re.I)
 _LOCK_RE = re.compile(r"prior lock file found", re.I)
 _CONFLICT_RE = re.compile(r"\.\.path[12]\b|\.conflict\d|NOTICE:.*conflict", re.I)
 _TRANSFERRED_RE = re.compile(r"Transferred:\s+(\d+)\s*/\s*\d+", re.M)
@@ -346,6 +353,10 @@ def classify_result(exit_code: int, stderr: str, log_tail: str) -> Outcome:
             return Outcome.LOCKED
         if _RESYNC_RE.search(text):
             return Outcome.NEEDS_RESYNC
+        if _NETWORK_RE.search(text):
+            # bisync aborts (exit 7) even on plain connectivity failures;
+            # those must be retried, not surfaced as needing a resync.
+            return Outcome.TRANSIENT
         return Outcome.FATAL
     # 2..6, 8 and anything unknown: worth retrying
     if _RESYNC_RE.search(text):

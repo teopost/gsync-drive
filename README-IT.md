@@ -40,7 +40,7 @@ servizio in background propaga le modifiche in entrambe le direzioni tramite
 
 ```bash
 ./build-deb.sh
-sudo apt install ./gdrive-sync_0.7.1_all.deb
+sudo apt install ./gdrive-sync_0.7.2_all.deb
 ```
 
 Poi avvia **GDrive Sync** dalle attività e segui la procedura guidata.
@@ -51,7 +51,7 @@ Un RPM per openSUSE (Leap 15.6+/Tumbleweed) si costruisce con:
 
 ```bash
 ./build-rpm.sh      # richiede rpmbuild (su Ubuntu/Debian: sudo apt install rpm)
-sudo zypper install ./gdrive-sync-0.7.1-1.noarch.rpm
+sudo zypper install ./gdrive-sync-0.7.2-1.noarch.rpm
 ```
 
 L'app funziona anche su KDE Plasma: il runtime GTK4/libadwaita viene

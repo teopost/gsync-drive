@@ -44,7 +44,7 @@ build it yourself:
 
 ```bash
 ./build-deb.sh
-sudo apt install ./gdrive-sync_0.7.1_all.deb
+sudo apt install ./gdrive-sync_0.7.2_all.deb
 ```
 
 Then launch **GDrive Sync** from the activities overview and follow the
@@ -56,7 +56,7 @@ An RPM for openSUSE (Leap 15.6+/Tumbleweed) can be built with:
 
 ```bash
 ./build-rpm.sh      # requires rpmbuild (on Ubuntu/Debian: sudo apt install rpm)
-sudo zypper install ./gdrive-sync-0.7.1-1.noarch.rpm
+sudo zypper install ./gdrive-sync-0.7.2-1.noarch.rpm
 ```
 
 The app also runs on KDE Plasma: the GTK4/libadwaita runtime is pulled in as

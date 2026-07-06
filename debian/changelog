@@ -1,3 +1,12 @@
+gdrive-sync (0.7.2) unstable; urgency=medium
+
+  * Fix: transient network/DNS failures during a sync were classified as
+    "needs repair" because rclone prints "Bisync aborted" on every
+    critical error. Connectivity failures are now retried automatically
+    with backoff; only genuine resync conditions ask for a repair.
+
+ -- Stefano Teodorani <stefano.teodorani@horsa.it>  Mon, 06 Jul 2026 21:00:00 +0200
+
 gdrive-sync (0.7.1) unstable; urgency=medium
 
   * Fix: after moving the local folder from the preferences, the automatic
