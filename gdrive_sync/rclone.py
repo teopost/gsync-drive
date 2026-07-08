@@ -342,19 +342,21 @@ def classify_result(exit_code: int, stderr: str, log_tail: str) -> Outcome:
 
     rclone exit codes: 0 ok; 1 usage; 2 uncategorized; 3/4 not found;
     5 temporary; 6 less-serious; 7 fatal; 8 transfer limit; 9 ok-no-transfer.
+    In practice bisync critical aborts surface as exit 1 or 7 depending on
+    the rclone version, so both get the output pattern checks.
     """
     text = f"{stderr}\n{log_tail}"
     if exit_code in (0, 9):
         return Outcome.SUCCESS
-    if exit_code == 1:
-        return Outcome.FATAL
-    if exit_code == 7:
-        if _LOCK_RE.search(text):
-            return Outcome.LOCKED
+    if _LOCK_RE.search(text):
+        # A lock abort is a lock abort whatever the exit code; the engine
+        # clears stale locks and retries.
+        return Outcome.LOCKED
+    if exit_code in (1, 7):
         if _RESYNC_RE.search(text):
             return Outcome.NEEDS_RESYNC
         if _NETWORK_RE.search(text):
-            # bisync aborts (exit 7) even on plain connectivity failures;
+            # bisync aborts even on plain connectivity failures;
             # those must be retried, not surfaced as needing a resync.
             return Outcome.TRANSIENT
         return Outcome.FATAL

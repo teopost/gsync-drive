@@ -1,3 +1,14 @@
+gdrive-sync (0.8.3) unstable; urgency=medium
+
+  * Fix: a bisync interrupted by a shutdown leaves its lock file behind;
+    on the next boot rclone aborts with "prior lock file found" and exit
+    code 1, which was classified as a fatal error, leaving the account
+    stuck in error until a manual sync. The lock abort is now recognized
+    at any exit code, so the daemon clears the stale lock and retries by
+    itself. Exit code 1 also gets the resync/network pattern checks.
+
+ -- Stefano Teodorani <stefano.teodorani@horsa.it>  Tue, 08 Jul 2026 23:00:00 +0200
+
 gdrive-sync (0.8.2) unstable; urgency=medium
 
   * Revert the tray icon animation (0.8.0/0.8.1): back to the static

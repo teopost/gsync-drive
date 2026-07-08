@@ -33,6 +33,13 @@
   </developer>
   <content_rating type="oars-1.1"/>
   <releases>
+    <release version="0.8.3" date="2026-07-08">
+      <description>
+        <p>A synchronization interrupted by a shutdown no longer leaves the
+        account stuck in error at the next boot: the daemon now clears the
+        stale lock and retries by itself.</p>
+      </description>
+    </release>
     <release version="0.8.2" date="2026-07-06">
       <description>
         <p>Back to the static per-state tray icon: the animation did not

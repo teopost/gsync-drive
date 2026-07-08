@@ -177,6 +177,9 @@ CONFLICT_LOG = """\
     (5, "temporary error", "", Outcome.TRANSIENT),
     (7, "", RESYNC_LOG, Outcome.NEEDS_RESYNC),
     (7, "", LOCK_LOG, Outcome.LOCKED),  # lock takes precedence over resync text
+    (1, "", LOCK_LOG, Outcome.LOCKED),  # some rclone versions exit 1 on the lock abort
+    (5, "", LOCK_LOG, Outcome.LOCKED),  # the lock pattern wins at any exit code
+    (1, "", RESYNC_LOG, Outcome.NEEDS_RESYNC),
     (7, "some other fatal thing", "", Outcome.FATAL),
     (2, "", RESYNC_LOG, Outcome.NEEDS_RESYNC),
     (8, "transfer limit", "", Outcome.TRANSIENT),
@@ -240,3 +243,29 @@ def test_unknown_critical_abort_is_fatal_not_resync():
     assert rclone.classify_result(
         7, "", "some unexpected condition\nBisync aborted"
     ) is Outcome.FATAL
+
+
+# --------------------------------------------------------------------------- #
+# Classification: a bisync interrupted by a shutdown leaves its lock file
+# behind; the startup sync then aborts on "prior lock file found" with exit
+# code 1, not 7 (regression: exit 1 was mapped to FATAL before any pattern
+# check, so the engine never cleared the stale lock and the account stayed
+# in error until a manual sync)
+# --------------------------------------------------------------------------- #
+
+def test_lock_abort_exit_1_is_locked():
+    log_tail = (
+        "2026/07/08 22:19:56 INFO  : /home/x/.local/state/gdrive-sync/bisync/"
+        "account1/path1..path2.lck: Valid lock file found. Expires at "
+        "2026-07-08 22:23:47 +0200 CEST. (3m51s from now)\n"
+        "Errors:                 1 (retrying may help)\n"
+        "2026/07/08 22:19:56 NOTICE: Failed to bisync: prior lock file found: "
+        "/home/x/.local/state/gdrive-sync/bisync/account1/path1..path2.lck"
+    )
+    assert rclone.classify_result(1, "", log_tail) is Outcome.LOCKED
+
+
+def test_network_abort_exit_1_is_transient():
+    assert rclone.classify_result(
+        1, "", "dial tcp: lookup drive.google.com: no such host\nBisync aborted"
+    ) is Outcome.TRANSIENT
